@@ -1,8 +1,10 @@
 import express from "express";
-import { testEndpoint } from "../controllers/testController.js";
+import usuarioRoutes from "./usuarioRoutes.js";
+import vehiculoRoutes from "./vehiculoRoutes.js";
 
 const router = express.Router();
 
-router.get("/test", testEndpoint);
+router.use("/usuarios", usuarioRoutes);
+router.use("/vehiculos", vehiculoRoutes);
 
 export default router;
