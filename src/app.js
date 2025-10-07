@@ -9,6 +9,12 @@ app.use(cors());
 app.use(express.json());
 app.use(morgan("dev"));
 
-app.use("/api", routes);
+// Rutas de usuarios
+import usuarioRoutes from "./routes/usuarioRoutes.js";
+app.use("/usuario", usuarioRoutes);
+
+// Rutas de vehículos
+import vehiculoRoutes from "./routes/vehiculoRoutes.js";
+app.use("/vehiculo", vehiculoRoutes);
 
 export default app;

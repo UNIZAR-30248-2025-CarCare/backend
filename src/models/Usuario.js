@@ -1,5 +1,5 @@
 import { DataTypes } from "sequelize";
-import  sequelize  from "../config/database.js";
+import sequelize from "../config/database.js";
 
 const Usuario = sequelize.define("Usuario", {
   id: {
@@ -15,6 +15,19 @@ const Usuario = sequelize.define("Usuario", {
     type: DataTypes.STRING,
     allowNull: false,
     unique: true,
+  },
+  contraseña: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  fecha_nacimiento: {
+    type: DataTypes.DATEONLY, // Almacena solo la fecha (YYYY-MM-DD)
+    allowNull: false,
+  },
+  ubicaciones_preferidas: {
+    type: DataTypes.JSON, // Almacena una lista de objetos JSON
+    allowNull: true, // Puede ser opcional
+    defaultValue: [], // Por defecto, una lista vacía
   },
 });
 

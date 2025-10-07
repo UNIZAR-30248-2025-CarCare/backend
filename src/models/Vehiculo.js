@@ -1,5 +1,5 @@
 import { DataTypes } from "sequelize";
-import  sequelize  from "../config/database.js";
+import sequelize from "../config/database.js";
 
 const Vehiculo = sequelize.define("Vehiculo", {
   id: {
@@ -7,7 +7,7 @@ const Vehiculo = sequelize.define("Vehiculo", {
     autoIncrement: true,
     primaryKey: true,
   },
-  marca: {
+  nombre: {
     type: DataTypes.STRING,
     allowNull: false,
   },
@@ -15,10 +15,36 @@ const Vehiculo = sequelize.define("Vehiculo", {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  matricula: {
+  fabricante: {
     type: DataTypes.STRING,
     allowNull: false,
-    unique: true,
+  },
+  antiguedad: {
+    type: DataTypes.INTEGER, // Años de antigüedad
+    allowNull: false,
+  },
+  tipo_combustible: {
+    type: DataTypes.ENUM("gasolina", "diesel", "electrico", "hibrido"), // Tipos de combustible
+    allowNull: false,
+  },
+  litros_combustible: {
+    type: DataTypes.FLOAT, // Cantidad de combustible en litros
+    allowNull: false,
+    defaultValue: 0, // Por defecto, 0 litros
+  },
+  consumo_medio: {
+    type: DataTypes.FLOAT, // Consumo medio en litros por 100 km
+    allowNull: false,
+  },
+  ubicacion_actual: {
+    type: DataTypes.JSON, // Coordenadas de ubicación actual (latitud y longitud)
+    allowNull: true,
+    defaultValue: null,
+  },
+  estado: {
+    type: DataTypes.ENUM("activo", "inactivo", "mantenimiento"), // Estado del vehículo
+    allowNull: false,
+    defaultValue: "activo",
   },
 });
 

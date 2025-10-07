@@ -1,16 +1,5 @@
-import express from "express";
+import app from "./src/app.js";
 import sequelize from "./src/config/database.js";
-import Usuario from "./src/models/Usuario.js";
-import Vehiculo from "./src/models/Vehiculo.js";
-
-// ✅ Crear instancia de Express ANTES de usarla
-const app = express();
-app.use(express.json());
-
-// Rutas de prueba (opcional)
-app.get("/", (req, res) => {
-  res.send("🚗 Bienvenido a la API de CarCare");
-});
 
 async function startServer() {
   try {
