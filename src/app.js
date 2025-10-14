@@ -9,6 +9,10 @@ app.use(cors());
 app.use(express.json());
 app.use(morgan("dev"));
 
+app.get("/", (req, res) => {
+  res.status(200).json({ message: "API CarCare backend funcionando" });
+});
+
 // Rutas de usuarios
 import usuarioRoutes from "./routes/usuarioRoutes.js";
 app.use("/usuario", usuarioRoutes);
