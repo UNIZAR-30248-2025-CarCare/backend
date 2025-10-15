@@ -1,4 +1,5 @@
 import Vehiculo from "../models/Vehiculo.js";
+import { Usuario } from "../models/usuario_vehiculo.js";
 
 // Función para registrar un nuevo vehículo
 export const registrar = async (req, res) => {
@@ -36,5 +37,35 @@ export const registrar = async (req, res) => {
     res.status(200).json({ message: "Vehículo registrado exitosamente.", vehiculo: nuevoVehiculo });
   } catch (error) {
     res.status(500).json({ error: "Error al registrar el vehículo.", detalles: error.message });
+  }
+};
+
+export const asociarUsuarioVehiculo = async (req, res) => {
+  try {
+    const vehiculoId = req.params.id;
+    const { email, nombre } = req.body;
+
+    if (!email || !nombre) {
+      return res.status(400).json({ error: "Faltan datos obligatorios (email y nombre)." });
+    }
+
+    // Buscar o crear el usuario
+    let [usuario] = await Usuario.findOrCreate({
+      where: { email },
+      defaults: { nombre }
+    });
+
+    // Buscar el vehículo
+    const vehiculo = await Vehiculo.findByPk(vehiculoId);
+    if (!vehiculo) {
+      return res.status(404).json({ error: "Vehículo no encontrado." });
+    }
+
+    // Asociar usuario al vehículo
+    await vehiculo.addUsuario(usuario);
+
+    res.status(200).json({ message: "Usuario asociado correctamente al vehículo." });
+  } catch (error) {
+    res.status(500).json({ error: "Error al asociar el vehículo al usuario.", detalles: error.message });
   }
 };
