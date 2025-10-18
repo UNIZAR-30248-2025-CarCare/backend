@@ -11,6 +11,11 @@ const Vehiculo = sequelize.define("Vehiculo", {
     type: DataTypes.STRING,
     allowNull: false,
   },
+  matricula: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: true,
+  },
   modelo: {
     type: DataTypes.STRING,
     allowNull: false,
