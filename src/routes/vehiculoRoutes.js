@@ -1,4 +1,4 @@
-import "../models/usuario_vehiculo.js";
+import "../models/index.js";
 import express from "express";
 import { registrar,generarInvitacion,aceptarInvitacion } from "../controllers/vehiculoController.js";
 import { verificarToken } from "../middlewares/authMiddleware.js";
