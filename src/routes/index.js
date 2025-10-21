@@ -4,7 +4,7 @@ import vehiculoRoutes from "./vehiculoRoutes.js";
 
 const router = express.Router();
 
-router.use("/usuarios", usuarioRoutes);
-router.use("/vehiculos", vehiculoRoutes);
+router.use("/usuario", usuarioRoutes);
+router.use("/vehiculo", vehiculoRoutes);
 
 export default router;
