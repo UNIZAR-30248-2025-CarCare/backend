@@ -1,6 +1,6 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../config/database.js";
-
+import Reserva from "./Reserva.js";
 const Vehiculo = sequelize.define("Vehiculo", {
   id: {
     type: DataTypes.INTEGER,
