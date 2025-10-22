@@ -21,14 +21,14 @@ async function seedDatabase() {
       {
         nombre: "Juan Pérez",
         email: "juan.perez@email.com",
-        contraseña: hashedPassword,
+        contrasegna: hashedPassword,
         fecha_nacimiento: "1990-05-15",
         ubicaciones_preferidas: [],
       },
       {
         nombre: "María García",
         email: "maria.garcia@email.com",
-        contraseña: hashedPassword,
+        contrasegna: hashedPassword,
         fecha_nacimiento: "1985-08-22",
         ubicaciones_preferidas: [
           {
@@ -42,14 +42,14 @@ async function seedDatabase() {
       {
         nombre: "Carlos Rodríguez",
         email: "carlos.rodriguez@email.com",
-        contraseña: hashedPassword,
+        contrasegna: hashedPassword,
         fecha_nacimiento: "1992-03-10",
         ubicaciones_preferidas: [],
       },
       {
         nombre: "Ana Martínez",
         email: "ana.martinez@email.com",
-        contraseña: hashedPassword,
+        contrasegna: hashedPassword,
         fecha_nacimiento: "1988-11-30",
         ubicaciones_preferidas: [
           {
@@ -63,7 +63,7 @@ async function seedDatabase() {
       {
         nombre: "Luis Fernández",
         email: "luis.fernandez@email.com",
-        contraseña: hashedPassword,
+        contrasegna: hashedPassword,
         fecha_nacimiento: "1995-07-18",
         ubicaciones_preferidas: [],
       },

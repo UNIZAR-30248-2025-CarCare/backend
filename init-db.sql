@@ -5,8 +5,8 @@ USE carcare_db;
 -- Este script se ejecutará después de que la aplicación sincronice los modelos
 
 -- Insertar usuarios de ejemplo
--- Nota: Las contraseñas están hasheadas con bcrypt (contraseña: "password123")
-INSERT INTO Usuarios (nombre, email, contraseña, fecha_nacimiento, ubicaciones_preferidas, createdAt, updatedAt) VALUES
+-- Nota: Las contraseñas están hasheadas con bcrypt (contrasegna: "password123")
+INSERT INTO Usuarios (nombre, email, contrasegna, fecha_nacimiento, ubicaciones_preferidas, createdAt, updatedAt) VALUES
 ('Juan Pérez', 'juan.perez@email.com', '$2b$10$rZ5qE7xKX8yN9vJ3QzGKZuXw8Y3qF7VwN4tR6pL2mK9jH8sD5wE6a', '1990-05-15', '[]', NOW(), NOW()),
 ('María García', 'maria.garcia@email.com', '$2b$10$rZ5qE7xKX8yN9vJ3QzGKZuXw8Y3qF7VwN4tR6pL2mK9jH8sD5wE6a', '1985-08-22', '[{"nombre": "Taller Central", "direccion": "Calle Mayor 45", "latitud": 41.6488, "longitud": -0.8891}]', NOW(), NOW()),
 ('Carlos Rodríguez', 'carlos.rodriguez@email.com', '$2b$10$rZ5qE7xKX8yN9vJ3QzGKZuXw8Y3qF7VwN4tR6pL2mK9jH8sD5wE6a', '1992-03-10', '[]', NOW(), NOW()),
