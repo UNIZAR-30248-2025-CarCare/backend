@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 import morgan from "morgan";
 import routes from "./routes/index.js";
-
+import "./models/associations.js";
 const app = express();
 
 app.use(cors());
@@ -20,5 +20,9 @@ app.use("/usuario", usuarioRoutes);
 // Rutas de vehículos
 import vehiculoRoutes from "./routes/vehiculoRoutes.js";
 app.use("/vehiculo", vehiculoRoutes);
+
+// Rutas de reservas
+import reservaRoutes from "./routes/reservaRoutes.js";
+app.use("/reserva", reservaRoutes);
 
 export default app;
