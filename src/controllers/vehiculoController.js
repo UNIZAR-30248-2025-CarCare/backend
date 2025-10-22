@@ -172,3 +172,35 @@ export const aceptarInvitacion = async (req, res) => {
     res.status(500).json({ error: "Error al aceptar la invitación.", detalles: error.message });
   }
 };
+
+// Función para obtener los vehículos asociados a un usuario
+export const obtenerVehiculosUsuario = async (req, res) => {
+  try {
+    const usuarioId = req.params.usuarioId;
+
+    // Comprobación de existencia de usuario
+    const usuario = await Usuario.findByPk(usuarioId);
+    if (!usuario) {
+      return res.status(404).json({ error: "Usuario no encontrado." });
+    }
+
+    // Obtener vehículos asociados al usuario, incluyendo los usuarios vinculados
+    const vehiculos = await usuario.getVehiculos({
+      include: [{
+        model: Usuario,
+        attributes: ['nombre'],
+        through: { attributes: [] } // No incluir datos de la tabla intermedia
+      }]
+    });
+
+    // Formatear la respuesta para incluir los nombres de los usuarios vinculados
+    const resultado = vehiculos.map(vehiculo => ({
+      ...vehiculo.toJSON(),
+      usuariosVinculados: vehiculo.Usuarios.map(u => u.nombre)
+    }));
+
+    res.status(200).json({ vehiculos: resultado });
+  } catch (error) {
+    res.status(500).json({ error: "Error al obtener los vehículos.", detalles: error.message });
+  }
+};
