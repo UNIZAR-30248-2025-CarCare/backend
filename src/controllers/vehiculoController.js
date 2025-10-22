@@ -1,6 +1,6 @@
 import Vehiculo from "../models/Vehiculo.js";
 import Invitacion from "../models/Invitacion.js";
-import { Usuario } from "../models/usuario_vehiculo.js";
+import { Usuario } from "../models/index.js";
 
 // Función para registrar un nuevo vehículo
 export const registrar = async (req, res) => {
