@@ -5,8 +5,8 @@ import { verificarToken } from "../middlewares/authMiddleware.js";
 
 const router = express.Router();
 
-router.post('/registrar', registrar);
+router.post('/registrar', verificarToken, registrar);
 router.post('/:vehiculoId/invitaciones', verificarToken, generarInvitacion);
-router.post('/unirse', aceptarInvitacion);
+router.post('/unirse', verificarToken, aceptarInvitacion);
 
 export default router;

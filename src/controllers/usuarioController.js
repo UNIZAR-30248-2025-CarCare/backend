@@ -55,7 +55,7 @@ export const sign_up = async (req, res) => {
     const nuevoUsuario = await Usuario.create({
       nombre,
       email,
-      contraseña: contraseñaHasheada,
+      contrasegna: contraseñaHasheada,
       fecha_nacimiento
     });
 
@@ -82,7 +82,7 @@ export const sign_in = async (req, res) => {
     }
 
     // Verificar la contraseña
-    const contraseñaValida = await bcrypt.compare(contraseña, usuario.contraseña);
+    const contraseñaValida = await bcrypt.compare(contraseña, usuario.contrasegna);
     if (!contraseñaValida) {
       return res.status(401).json({ error: "Contraseña incorrecta." });
     }
