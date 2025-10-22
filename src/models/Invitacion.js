@@ -20,7 +20,7 @@ const Invitacion = sequelize.define("Invitacion", {
     allowNull: true, // Puede ser nulo hasta que el invitado acepte
   },
   codigo: {
-    type: DataTypes.STRING(64),
+    type: DataTypes.STRING(128),
     allowNull: false,
     unique: true,
   },

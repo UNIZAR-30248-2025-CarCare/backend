@@ -29,7 +29,7 @@ const Vehiculo = sequelize.define("Vehiculo", {
     allowNull: false,
   },
   tipo_combustible: {
-    type: DataTypes.ENUM("gasolina", "diesel", "electrico", "hibrido"), // Tipos de combustible
+    type: DataTypes.ENUM("Gasolina", "Diésel", "Eléctrico", "Híbrido", "GLP"), // Tipos de combustible
     allowNull: false,
   },
   litros_combustible: {
@@ -47,9 +47,14 @@ const Vehiculo = sequelize.define("Vehiculo", {
     defaultValue: null,
   },
   estado: {
-    type: DataTypes.ENUM("activo", "inactivo", "mantenimiento"), // Estado del vehículo
+    type: DataTypes.ENUM("Activo", "Inactivo", "Mantenimiento"), // Estado del vehículo
     allowNull: false,
-    defaultValue: "activo",
+    defaultValue: "Activo",
+  },
+  tipo: {
+    type: DataTypes.ENUM("Coche", "Moto", "Furgoneta", "Camión"), // Tipo de vehículo
+    allowNull: false,
+    defaultValue: "Coche",
   },
 });
 

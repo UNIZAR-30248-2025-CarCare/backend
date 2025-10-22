@@ -1,6 +1,6 @@
 import Vehiculo from "../models/Vehiculo.js";
 import Invitacion from "../models/Invitacion.js";
-import { Usuario } from "../models/usuario_vehiculo.js";
+import { Usuario } from "../models/index.js";
 
 // Función para registrar un nuevo vehículo
 export const registrar = async (req, res) => {
@@ -17,11 +17,48 @@ export const registrar = async (req, res) => {
       consumo_medio,
       ubicacion_actual,
       estado,
+      tipo
     } = req.body;
 
-    // Validar que los campos obligatorios estén presentes
-    if (!usuarioId || !nombre || !matricula || !modelo || !fabricante || !antiguedad || !tipo_combustible || !consumo_medio) {
+    // Imprimir request body para depuración
+    console.log("Request Body:", req.body);
+
+    // Validar campos obligatorios
+    if (
+      usuarioId === undefined || usuarioId === null ||
+      nombre === undefined || nombre === null ||
+      matricula === undefined || matricula === null ||
+      modelo === undefined || modelo === null ||
+      fabricante === undefined || fabricante === null ||
+      antiguedad === undefined || antiguedad === null ||
+      tipo_combustible === undefined || tipo_combustible === null ||
+      consumo_medio === undefined || consumo_medio === null
+    ) {
       return res.status(400).json({ error: "Faltan campos obligatorios." });
+    }
+
+    // Validar tipo_combustible
+    const combustiblesValidos = ["Gasolina", "Diésel", "Eléctrico", "Híbrido", "GLP"];
+    if (!combustiblesValidos.includes(tipo_combustible)) {
+      return res.status(400).json({ error: "Tipo de combustible no válido." });
+    }
+
+    // Validar estado
+    const estadosValidos = ["Activo", "Inactivo", "Mantenimiento"];
+    if (estado && !estadosValidos.includes(estado)) {
+      return res.status(400).json({ error: "Estado no válido." });
+    }
+
+    // Validar tipo de vehículo
+    const tiposValidos = ["Coche", "Moto", "Furgoneta", "Camión"];
+    if (tipo && !tiposValidos.includes(tipo)) {
+      return res.status(400).json({ error: "Tipo de vehículo no válido." });
+    }
+
+    // Validar matrícula duplicada
+    const vehiculoExistente = await Vehiculo.findOne({ where: { matricula } });
+    if (vehiculoExistente) {
+      return res.status(409).json({ error: "La matrícula ya está registrada." });
     }
 
     // Buscar al usuario que registra el vehículo
@@ -42,6 +79,7 @@ export const registrar = async (req, res) => {
       consumo_medio,
       ubicacion_actual,
       estado,
+      tipo
     });
 
     await usuario.addVehiculo(nuevoVehiculo);

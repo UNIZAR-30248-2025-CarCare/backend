@@ -1,4 +1,4 @@
-import "../models/usuario_vehiculo.js";
+import "../models/index.js";
 import express from "express";
 import { sign_in, sign_up, obtenerNombreUsuario } from "../controllers/usuarioController.js";
 import { verificarToken } from '../middlewares/authMiddleware.js';

@@ -1,0 +1,45 @@
+services:
+  # Servicio de MySQL
+  mysql:
+    image: mysql:8.0
+    container_name: carcare_mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: carcare_db
+      MYSQL_USER: carcare_user
+      MYSQL_PASSWORD: carcare_password
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+
+  # Servicio del Backend
+  backend:
+    build: .
+    container_name: carcare_backend
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - DB_HOST=mysql
+      - DB_PORT=3306
+      - DB_NAME=carcare_db
+      - DB_USER=carcare_user
+      - DB_PASSWORD=carcare_password
+      - JWT_SECRET=tu_secreto_super_seguro_cambialo_en_produccion
+    depends_on:
+      mysql:
+        condition: service_healthy
+    volumes:
+      - .:/app
+      - /app/node_modules
+
+volumes:
+  mysql_data:

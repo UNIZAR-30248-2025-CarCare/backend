@@ -1,5 +1,6 @@
 import app from "./src/app.js";
 import sequelize from "./src/config/database.js";
+import seedDatabase from "./src/seeders/seedDatabase.js";
 
 async function startServer() {
   try {
@@ -10,12 +11,17 @@ async function startServer() {
     await sequelize.sync({ alter: true });
     console.log("📦 Modelos sincronizados con la base de datos.");
 
-    // ✅ Aquí ya existe 'app', por lo que no fallará
-    app.listen(3000, () => {
-      console.log("🚀 Servidor iniciado en http://localhost:3000");
+    // Ejecutar el seeder (solo si la BD está vacía)
+    await seedDatabase();
+
+    // Iniciar el servidor
+    const PORT = process.env.PORT || 3000;
+    app.listen(PORT, () => {
+      console.log(`🚀 Servidor iniciado en http://localhost:${PORT}`);
     });
   } catch (error) {
     console.error("❌ Error al conectar con la base de datos:", error);
+    process.exit(1);
   }
 }
 
