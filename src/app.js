@@ -25,4 +25,8 @@ app.use("/vehiculo", vehiculoRoutes);
 import reservaRoutes from "./routes/reservaRoutes.js";
 app.use("/reserva", reservaRoutes);
 
+// Rutas de invitaciones
+import invitacionRoutes from "./routes/invitacionRoutes.js";
+app.use("/invitacion", invitacionRoutes);
+
 export default app;

@@ -1,14 +1,13 @@
 import "../models/index.js";
 import express from "express";
-import { registrar,generarInvitacion,aceptarInvitacion } from "../controllers/vehiculoController.js";
 import { verificarToken } from "../middlewares/authMiddleware.js";
-import { obtenerVehiculosUsuario } from "../controllers/vehiculoController.js";
+import { obtenerVehiculosUsuario, obtenerUbicacionVehiculo, actualizarUbicacionVehiculo, registrarVehiculo } from "../controllers/vehiculoController.js";
 
 const router = express.Router();
 
-router.post('/registrar', verificarToken, registrar);
-router.post('/:vehiculoId/invitaciones', verificarToken, generarInvitacion);
-router.post('/unirse', verificarToken, aceptarInvitacion);
+router.post('/registrar', verificarToken, registrarVehiculo);
 router.get('/obtenerVehiculos/:usuarioId', verificarToken, obtenerVehiculosUsuario);
+router.get('/obtenerUbicacion/:vehiculoId', verificarToken, obtenerUbicacionVehiculo);
+router.put('/actualizarUbicacion/:vehiculoId', verificarToken, actualizarUbicacionVehiculo);
 
 export default router;

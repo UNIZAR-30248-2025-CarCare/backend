@@ -1,9 +1,8 @@
 import Vehiculo from "../models/Vehiculo.js";
-import Invitacion from "../models/Invitacion.js";
 import { Usuario } from "../models/index.js";
 
 // Función para registrar un nuevo vehículo
-export const registrar = async (req, res) => {
+export const registrarVehiculo = async (req, res) => {
   try {
     const {
       usuarioId,
@@ -90,89 +89,6 @@ export const registrar = async (req, res) => {
   }
 };
 
-// Función para generar una invitación para un vehículo
-export const generarInvitacion = async (req, res) => {
-  try {
-    const { vehiculoId } = req.params;
-    const usuarioId = req.usuario.id; // Obtener el ID del usuario desde el token verificado
-    const { emailInvitado } = req.body;      // del body JSON enviado por el frontend
-
-    const vehiculo = await Vehiculo.findByPk(vehiculoId);
-    if (!vehiculo) return res.status(404).json({ error: "Vehículo no encontrado." });
-
-    // Verificar si el usuario es propietario
-    const esPropietario = await vehiculo.hasUsuario(usuarioId);
-    if (!esPropietario) return res.status(403).json({ error: "No tienes permisos sobre este vehículo." });
-
-    // Buscar al usuario invitado por su email
-    const invitado = await Usuario.findOne({ where: { email: emailInvitado } });
-    if (!invitado) return res.status(404).json({ error: "Usuario invitado no encontrado." });
-
-    const codigo = "JOIN-" + Math.random().toString(36).substr(2, 8).toUpperCase();
-
-    const nuevaInvitacion = await Invitacion.create({
-      vehiculoId,
-      creadoPorId: 2, //usuarioId,
-      usuarioInvitadoId: invitado.id,
-      codigo,
-      usado: false
-    });
-
-    //Devolver la respuesta al frontend
-    res.status(200).json({
-      message: "Invitación generada exitosamente",
-      codigo,
-      vehiculo: {
-        id: vehiculo.id,
-        nombre: vehiculo.nombre,
-        matricula: vehiculo.matricula
-      } 
-    });
-
-  } catch (error) {
-    res.status(500).json({ error: "Error al generar la invitación.", detalles: error.message });
-  }
-};
-
-// Función para aceptar una invitación
-export const aceptarInvitacion = async (req, res) => {
-  try {
-    //const usuarioId = req.usuario.id; // Obtener el ID del usuario desde el token verificado
-    const { codigo } = req.body;
-
-    const invitacion = await Invitacion.findOne({ where: { codigo } });
-    if (!invitacion) return res.status(404).json({ error: "Invitación no encontrada." });
-    if (invitacion.usado) return res.status(400).json({ error: "La invitación ya ha sido utilizada." });
-
-    /*if (invitacion.usuarioInvitadoId !== usuarioId) {
-      return res.status(403).json({ error: "No tienes permiso para aceptar esta invitación." });
-    }*/
-
-    // Obtener el vehículo asociado a la invitación
-    const vehiculo = await Vehiculo.findByPk(invitacion.vehiculoId);
-    if (!vehiculo) return res.status(404).json({ error: "Vehículo no encontrado." });
-
-    // Asociar el usuario invitado al vehículo
-    await vehiculo.addUsuario(invitacion.usuarioInvitadoId);
-
-    // Marcar la invitación como usada
-    invitacion.usado = true;
-    await invitacion.save();
-
-    // Devolver la respuesta
-    res.status(200).json({
-      message: "Invitación aceptada correctamente. Ahora eres copropietario del vehículo.",
-      vehiculo: {
-        id: vehiculo.id,
-        nombre: vehiculo.nombre,
-        matricula: vehiculo.matricula
-      }
-    });
-  } catch (error) {
-    res.status(500).json({ error: "Error al aceptar la invitación.", detalles: error.message });
-  }
-};
-
 // Función para obtener los vehículos asociados a un usuario
 export const obtenerVehiculosUsuario = async (req, res) => {
   try {
@@ -202,5 +118,69 @@ export const obtenerVehiculosUsuario = async (req, res) => {
     res.status(200).json({ vehiculos: resultado });
   } catch (error) {
     res.status(500).json({ error: "Error al obtener los vehículos.", detalles: error.message });
+  }
+};
+
+// Obtener la ubicación de un vehículo
+export const obtenerUbicacionVehiculo = async (req, res) => {
+  try {
+    const vehiculoId = req.params.vehiculoId;
+    const usuarioId = req.usuario.id;
+
+    const vehiculo = await Vehiculo.findByPk(vehiculoId, {
+      include: [{
+        model: Usuario,
+        attributes: ['id'],
+        through: { attributes: [] }
+      }]
+    });
+
+    if (!vehiculo) {
+      return res.status(404).json({ error: "Vehículo no encontrado." });
+    }
+
+    // Comprobar si el usuario está asociado al vehículo
+    const vinculado = vehiculo.Usuarios.some(u => u.id === usuarioId);
+    if (!vinculado) {
+      return res.status(403).json({ error: "No tienes permisos para ver la ubicación de este vehículo." });
+    }
+
+    res.status(200).json({ ubicacion_actual: vehiculo.ubicacion_actual });
+  } catch (error) {
+    res.status(500).json({ error: "Error al obtener la ubicación.", detalles: error.message });
+  }
+};
+
+// Actualizar la ubicación de un vehículo
+export const actualizarUbicacionVehiculo = async (req, res) => {
+  try {
+    const vehiculoId = req.params.vehiculoId;
+    const usuarioId = req.usuario.id;
+    const { ubicacion_actual } = req.body;
+
+    const vehiculo = await Vehiculo.findByPk(vehiculoId, {
+      include: [{
+        model: Usuario,
+        attributes: ['id'],
+        through: { attributes: [] }
+      }]
+    });
+
+    if (!vehiculo) {
+      return res.status(404).json({ error: "Vehículo no encontrado." });
+    }
+
+    // Comprobar si el usuario está asociado al vehículo
+    const vinculado = vehiculo.Usuarios.some(u => u.id === usuarioId);
+    if (!vinculado) {
+      return res.status(403).json({ error: "No tienes permisos para actualizar la ubicación de este vehículo." });
+    }
+
+    vehiculo.ubicacion_actual = ubicacion_actual;
+    await vehiculo.save();
+
+    res.status(200).json({ message: "Ubicación actualizada correctamente.", ubicacion_actual: vehiculo.ubicacion_actual });
+  } catch (error) {
+    res.status(500).json({ error: "Error al actualizar la ubicación.", detalles: error.message });
   }
 };
