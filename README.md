@@ -99,7 +99,22 @@ La forma más sencilla de levantar la API y la base de datos (PostgreSQL) es med
 
 La aplicación sigue una estructura modular para separar responsabilidades (MVC - Modelo, Vista, Controlador, adaptado a API):
 
-. ├── src/ │ ├── config/ # Configuración de la aplicación (conexión a BD, etc.) │ ├── controllers/ # Lógica de negocio y manejo de peticiones (qué hacer) │ ├── middlewares/ # Funciones que se ejecutan antes de los controladores (ej. autenticación) │ ├── models/ # Definición de modelos y asociaciones (Sequelize) │ ├── routes/ # Definición de rutas y endpoints │ ├── seeders/ # Scripts para poblar la base de datos con datos iniciales │ ├── tests/ # Pruebas unitarias e integración │ └── app.js # Configuración principal de Express y middleware ├── .env # Variables de entorno (no subir a repositorio) ├── Dockerfile # Configuración para construir la imagen Docker ├── docker-compose.yml # Orquestación de contenedores Docker ├── package.json # Dependencias y scripts del proyecto └── README.md # Documentación del proyecto
+.
+├── src/
+│   ├── config/          # Configuración de la aplicación (conexión a BD, etc.)
+│   ├── controllers/     # Lógica de negocio y manejo de peticiones (qué hacer)
+│   ├── middlewares/     # Funciones que se ejecutan antes de los controladores (ej. autenticación)
+│   ├── models/          # Definición de modelos y asociaciones (Sequelize)
+│   ├── routes/          # Definición de rutas y endpoints
+│   ├── seeders/         # Scripts para poblar la base de datos con datos iniciales
+│   ├── tests/           # Pruebas unitarias e integración
+│   └── app.js           # Configuración principal de Express y middleware
+├── .env                 # Variables de entorno (no subir al repositorio)
+├── Dockerfile           # Configuración para construir la imagen Docker
+├── docker-compose.yml   # Orquestación de contenedores Docker
+├── package.json         # Dependencias y scripts del proyecto
+└── README.md            # Documentación del proyecto
+
 
 
 ## 🧩 Detalle de Componentes Clave
