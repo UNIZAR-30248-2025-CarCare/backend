@@ -99,6 +99,7 @@ La forma más sencilla de levantar la API y la base de datos (PostgreSQL) es med
 
 La aplicación sigue una estructura modular para separar responsabilidades (MVC - Modelo, Vista, Controlador, adaptado a API):
 
+````
 .
 ├── src/
 │   ├── config/          # Configuración de la aplicación (conexión a BD, etc.)
@@ -115,7 +116,7 @@ La aplicación sigue una estructura modular para separar responsabilidades (MVC 
 ├── package.json         # Dependencias y scripts del proyecto
 └── README.md            # Documentación del proyecto
 
-
+````
 
 ## 🧩 Detalle de Componentes Clave
 
