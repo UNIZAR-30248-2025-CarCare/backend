@@ -1,18 +1,19 @@
 import { Router } from "express";
 import { registrar, listar, actualizar, eliminar } from "../controllers/reservaController.js";
+import { verificarToken } from "../middlewares/authMiddleware.js";
 
 const router = Router();
 
 // Registrar una nueva reserva
-router.post("/", registrar);
+router.post("/", verificarToken, registrar);
 
 // Listar todas las reservas
-router.get("/", listar);
+router.get("/", verificarToken, listar);
 
 // Actualizar una reserva por ID
-router.put("/:id", actualizar);
+router.put("/:id", verificarToken, actualizar);
 
 // Eliminar una reserva por ID
-router.delete("/:id", eliminar);
+router.delete("/:id", verificarToken, eliminar);
 
 export default router;

@@ -5,7 +5,11 @@ import Reserva from "../models/Reserva.js";
 // Función para registrar una nueva reserva
 export const registrar = async (req, res) => {
   try {
-    const { motivo, fechaInicio, fechaFin, UsuarioId, VehiculoId, horaInicio, horaFin, descripcion } = req.body;
+    const { tipo, fechaInicio, fechaFinal, vehiculoId, horaInicio, horaFin, notas } = req.body;
+    
+    // Obtener el userId del token (viene del middleware)
+    const UsuarioId = req.usuario.id;
+    const VehiculoId = vehiculoId;
 
     // Validar que el usuario y vehículo existen
     const usuario = await Usuario.findByPk(UsuarioId);
@@ -17,30 +21,47 @@ export const registrar = async (req, res) => {
 
     // Crear la reserva
     const reserva = await Reserva.create({
-      motivo,
+      motivo: tipo, // El frontend envía "tipo" (TRABAJO/PERSONAL)
       fechaInicio,
-      fechaFin,
+      fechaFin: fechaFinal, // El frontend envía "fechaFinal"
       UsuarioId,
       VehiculoId,
       horaInicio,
       horaFin,
-      descripcion,
+      descripcion: notas, // El frontend envía "notas"
     });
 
     res.status(201).json(reserva);
   } catch (error) {
+    console.error("Error al crear reserva:", error);
     res.status(400).json({ error: error.message });
   }
 };
 
-// Listar todas las reservas de un usuario y un vehículo
+// Listar todas las reservas de un usuario
 export const listar = async (req, res) => {
   try {
+    // Obtener el userId del token
+    const UsuarioId = req.usuario.id;
+    
     const reservas = await Reserva.findAll({
-      include: [Usuario, Vehiculo],
+      where: { UsuarioId },
+      include: [
+        {
+          model: Usuario,
+          attributes: ['id', 'nombre', 'email']
+        },
+        {
+          model: Vehiculo,
+          attributes: ['id', 'nombre', 'matricula', 'tipo']
+        }
+      ],
+      order: [['fechaInicio', 'DESC']]
     });
-    res.json(reservas);
+    
+    res.json({ reservas });
   } catch (error) {
+    console.error("Error al listar reservas:", error);
     res.status(500).json({ error: error.message });
   }
 };
