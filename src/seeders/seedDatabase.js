@@ -12,8 +12,7 @@ async function seedDatabase() {
       return;
     }
 
-    // Hash de la contraseña "password123"
-    const hashedPassword = await bcrypt.hash("password123", 10);
+    const hashedPassword = "ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f"
 
     // 1. Crear usuarios
     console.log("👥 Creando usuarios...");

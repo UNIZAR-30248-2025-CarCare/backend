@@ -48,14 +48,14 @@ export const sign_up = async (req, res) => {
     }
 
     // Hashear la contraseña
-    const salt = await bcrypt.genSalt(10);
-    const contraseñaHasheada = await bcrypt.hash(contraseña, salt);
+    //const salt = await bcrypt.genSalt(10);
+    //const contraseñaHasheada = await bcrypt.hash(contraseña, salt);
 
     // Crear el nuevo usuario
     const nuevoUsuario = await Usuario.create({
       nombre,
       email,
-      contrasegna: contraseñaHasheada,
+      contrasegna: contraseña,
       fecha_nacimiento
     });
 
@@ -82,7 +82,9 @@ export const sign_in = async (req, res) => {
     }
 
     // Verificar la contraseña
-    const contraseñaValida = await bcrypt.compare(contraseña, usuario.contrasegna);
+    const contraseñaValida = (contraseña === usuario.contrasegna);
+    console.log("Contraseña:", contraseña);
+    console.log("Contraseña almacenada:", usuario.contrasegna);
     if (!contraseñaValida) {
       return res.status(401).json({ error: "Contraseña incorrecta." });
     }

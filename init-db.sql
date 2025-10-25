@@ -7,11 +7,11 @@ USE carcare_db;
 -- Insertar usuarios de ejemplo
 -- Nota: Las contraseñas están hasheadas con bcrypt (contrasegna: "password123")
 INSERT INTO Usuarios (nombre, email, contrasegna, fecha_nacimiento, ubicaciones_preferidas, createdAt, updatedAt) VALUES
-('Juan Pérez', 'juan.perez@email.com', '$2b$10$rZ5qE7xKX8yN9vJ3QzGKZuXw8Y3qF7VwN4tR6pL2mK9jH8sD5wE6a', '1990-05-15', '[]', NOW(), NOW()),
-('María García', 'maria.garcia@email.com', '$2b$10$rZ5qE7xKX8yN9vJ3QzGKZuXw8Y3qF7VwN4tR6pL2mK9jH8sD5wE6a', '1985-08-22', '[{"nombre": "Taller Central", "direccion": "Calle Mayor 45", "latitud": 41.6488, "longitud": -0.8891}]', NOW(), NOW()),
-('Carlos Rodríguez', 'carlos.rodriguez@email.com', '$2b$10$rZ5qE7xKX8yN9vJ3QzGKZuXw8Y3qF7VwN4tR6pL2mK9jH8sD5wE6a', '1992-03-10', '[]', NOW(), NOW()),
-('Ana Martínez', 'ana.martinez@email.com', '$2b$10$rZ5qE7xKX8yN9vJ3QzGKZuXw8Y3qF7VwN4tR6pL2mK9jH8sD5wE6a', '1988-11-30', '[{"nombre": "Gasolinera Norte", "direccion": "Avda. Goya 120", "latitud": 41.6560, "longitud": -0.8773}]', NOW(), NOW()),
-('Luis Fernández', 'luis.fernandez@email.com', '$2b$10$rZ5qE7xKX8yN9vJ3QzGKZuXw8Y3qF7VwN4tR6pL2mK9jH8sD5wE6a', '1995-07-18', '[]', NOW(), NOW());
+('Juan Pérez', 'juan.perez@email.com', 'ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f', '1990-05-15', '[]', NOW(), NOW()),
+('María García', 'maria.garcia@email.com', 'ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f', '1985-08-22', '[{"nombre": "Taller Central", "direccion": "Calle Mayor 45", "latitud": 41.6488, "longitud": -0.8891}]', NOW(), NOW()),
+('Carlos Rodríguez', 'carlos.rodriguez@email.com', 'ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f', '1992-03-10', '[]', NOW(), NOW()),
+('Ana Martínez', 'ana.martinez@email.com', 'ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f', '1988-11-30', '[{"nombre": "Gasolinera Norte", "direccion": "Avda. Goya 120", "latitud": 41.6560, "longitud": -0.8773}]', NOW(), NOW()),
+('Luis Fernández', 'luis.fernandez@email.com', 'ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f', '1995-07-18', '[]', NOW(), NOW());
 
 -- Insertar vehículos de ejemplo
 INSERT INTO Vehiculos (nombre, matricula, modelo, fabricante, antiguedad, tipo_combustible, litros_combustible, consumo_medio, ubicacion_actual, estado, createdAt, updatedAt) VALUES
