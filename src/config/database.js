@@ -3,6 +3,10 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
+/**
+ * Database configuration using Sequelize ORM.
+ * Connects to a MySQL database using environment variables for configuration.
+ */
 const sequelize = new Sequelize(
   process.env.DB_NAME || "carcare_db",
   process.env.DB_USER || "carcare_user",
