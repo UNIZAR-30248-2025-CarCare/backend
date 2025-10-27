@@ -1,6 +1,8 @@
 import { DataTypes } from "sequelize";
-import sequelize from "../config/database.js";
-import Reserva from "./Reserva.js";
+const isTest = process.env.NODE_ENV === 'test';
+const sequelize = isTest 
+  ? (await import("../config/database.test.js")).default
+  : (await import("../config/database.js")).default;
 const Usuario = sequelize.define("Usuario", {
   id: {
     type: DataTypes.INTEGER,
