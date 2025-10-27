@@ -48,7 +48,7 @@ describe('Vehiculo Controller - Tests Unitarios', () => {
       req.body = {
         usuarioId: 1,
         nombre: 'Mi Coche',
-        matricula: '1234ABC',
+        matricula: '1234 BBC',
         modelo: 'Model S',
         fabricante: 'Tesla',
         antiguedad: 2,
@@ -68,7 +68,7 @@ describe('Vehiculo Controller - Tests Unitarios', () => {
       const mockVehiculo = {
         id: 1,
         nombre: 'Mi Coche',
-        matricula: '1234ABC'
+        matricula: '1234 BBC'
       };
 
       Usuario.findByPk.mockResolvedValue(mockUsuario);
@@ -103,7 +103,7 @@ describe('Vehiculo Controller - Tests Unitarios', () => {
       req.body = {
         usuarioId: 1,
         nombre: 'Mi Coche',
-        matricula: '1234ABC',
+        matricula: '1234 BBC',
         modelo: 'Model S',
         fabricante: 'Tesla',
         antiguedad: 2,
@@ -123,7 +123,7 @@ describe('Vehiculo Controller - Tests Unitarios', () => {
       req.body = {
         usuarioId: 1,
         nombre: 'Mi Coche',
-        matricula: '1234ABC',
+        matricula: '1234 BBC',
         modelo: 'Model S',
         fabricante: 'Tesla',
         antiguedad: 2,
@@ -144,7 +144,7 @@ describe('Vehiculo Controller - Tests Unitarios', () => {
       req.body = {
         usuarioId: 1,
         nombre: 'Mi Coche',
-        matricula: '1234ABC',
+        matricula: '1234 BBC',
         modelo: 'Model S',
         fabricante: 'Tesla',
         antiguedad: 2,
@@ -165,7 +165,7 @@ describe('Vehiculo Controller - Tests Unitarios', () => {
       req.body = {
         usuarioId: 1,
         nombre: 'Mi Coche',
-        matricula: '1234ABC',
+        matricula: '1234 BBC',
         modelo: 'Model S',
         fabricante: 'Tesla',
         antiguedad: 2,
@@ -173,7 +173,7 @@ describe('Vehiculo Controller - Tests Unitarios', () => {
         consumo_medio: 0
       };
 
-      Vehiculo.findOne.mockResolvedValue({ matricula: '1234ABC' });
+      Vehiculo.findOne.mockResolvedValue({ matricula: '1234 BBC' });
 
       await registrarVehiculo(req, res);
 
@@ -187,7 +187,7 @@ describe('Vehiculo Controller - Tests Unitarios', () => {
       req.body = {
         usuarioId: 999,
         nombre: 'Mi Coche',
-        matricula: '1234ABC',
+        matricula: '1234 BBC',
         modelo: 'Model S',
         fabricante: 'Tesla',
         antiguedad: 2,
@@ -217,12 +217,12 @@ describe('Vehiculo Controller - Tests Unitarios', () => {
           {
             id: 1,
             nombre: 'Mi Coche',
-            matricula: '1234ABC',
+            matricula: '1234 BBC',
             Usuarios: [{ nombre: 'Usuario Test' }],
             toJSON: () => ({
               id: 1,
               nombre: 'Mi Coche',
-              matricula: '1234ABC',
+              matricula: '1234 BBC',
               Usuarios: [{ nombre: 'Usuario Test' }]
             })
           }

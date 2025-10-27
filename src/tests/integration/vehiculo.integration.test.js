@@ -65,7 +65,7 @@ describe('Vehiculo - Tests de Integración', () => {
         .send({
           usuarioId: userId,
           nombre: 'Mi Tesla',
-          matricula: '1234ABC',
+          matricula: '1234 BBC',
           modelo: 'Model S',
           fabricante: 'Tesla',
           antiguedad: 2,
@@ -79,7 +79,7 @@ describe('Vehiculo - Tests de Integración', () => {
 
       expect(response.status).toBe(200);
       expect(response.body).toHaveProperty('message', 'Vehículo registrado exitosamente.');
-      expect(response.body.vehiculo).toHaveProperty('matricula', '1234ABC');
+      expect(response.body.vehiculo).toHaveProperty('matricula', '1234 BBC');
     });
 
     it('debería rechazar si falta token de autenticación', async () => {
@@ -88,7 +88,7 @@ describe('Vehiculo - Tests de Integración', () => {
         .send({
           usuarioId: 1,
           nombre: 'Mi Tesla',
-          matricula: '1234ABC',
+          matricula: '123 BBC',
           modelo: 'Model S',
           fabricante: 'Tesla',
           antiguedad: 2,
@@ -121,7 +121,7 @@ describe('Vehiculo - Tests de Integración', () => {
       const vehiculoData = {
         usuarioId: userId,
         nombre: 'Mi Tesla',
-        matricula: '1234ABC',
+        matricula: '1234 BBC',
         modelo: 'Model S',
         fabricante: 'Tesla',
         antiguedad: 2,
@@ -155,7 +155,7 @@ describe('Vehiculo - Tests de Integración', () => {
         .send({
           usuarioId: userId,
           nombre: 'Mi Tesla',
-          matricula: '1234ABC',
+          matricula: '1234 BBC',
           modelo: 'Model S',
           fabricante: 'Tesla',
           antiguedad: 2,
@@ -179,7 +179,7 @@ describe('Vehiculo - Tests de Integración', () => {
         .send({
           usuarioId: userId,
           nombre: 'Mi Tesla',
-          matricula: '1234ABC',
+          matricula: '1234 BBC',
           modelo: 'Model S',
           fabricante: 'Tesla',
           antiguedad: 2,
@@ -223,7 +223,7 @@ describe('Vehiculo - Tests de Integración', () => {
         .send({
           usuarioId: userId,
           nombre: 'Mi Tesla',
-          matricula: '1234ABC',
+          matricula: '1234 BBC',
           modelo: 'Model S',
           fabricante: 'Tesla',
           antiguedad: 2,
@@ -255,7 +255,7 @@ describe('Vehiculo - Tests de Integración', () => {
         .send({
           usuarioId: userId1,
           nombre: 'Mi Tesla',
-          matricula: '1234ABC',
+          matricula: '1234 BBC',
           modelo: 'Model S',
           fabricante: 'Tesla',
           antiguedad: 2,
@@ -287,7 +287,7 @@ describe('Vehiculo - Tests de Integración', () => {
         .send({
           usuarioId: userId,
           nombre: 'Mi Tesla',
-          matricula: '1234ABC',
+          matricula: '1234 BBC',
           modelo: 'Model S',
           fabricante: 'Tesla',
           antiguedad: 2,
@@ -321,7 +321,7 @@ describe('Vehiculo - Tests de Integración', () => {
         .send({
           usuarioId: userId1,
           nombre: 'Mi Tesla',
-          matricula: '1234ABC',
+          matricula: '1234 BBC',
           modelo: 'Model S',
           fabricante: 'Tesla',
           antiguedad: 2,
