@@ -1,0 +1,40 @@
+name: Tests CI
+
+# Ejecutar en push a main/master y en pull requests
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x]
+
+    steps:
+    # Checkout del código
+    - name: Checkout código
+      uses: actions/checkout@v4
+
+    # Configurar Node.js
+    - name: Configurar Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+
+    # Instalar dependencias
+    - name: Instalar dependencias
+      run: npm ci
+
+    # Ejecutar tests unitarios
+    - name: Ejecutar tests unitarios
+      run: npm run test:unit
+
+    # Ejecutar tests de integración
+    - name: Ejecutar tests de integración
+      run: npm run test:integration
