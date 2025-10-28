@@ -1,6 +1,8 @@
-import  Usuario  from "./Usuario.js";
-import  Vehiculo  from "./Vehiculo.js";
+import Usuario from "./Usuario.js";
+import Vehiculo from "./Vehiculo.js";
 import Invitacion from "./Invitacion.js";
+import Viaje from "./Viaje.js";
+import Repostaje from "./Repostaje.js";
 
 // Relación N:M (muchos a muchos)
 Usuario.belongsToMany(Vehiculo, { through: "UsuarioVehiculo" });
@@ -18,5 +20,20 @@ Invitacion.belongsTo(Usuario, { foreignKey: "creadoPorId", as: "creador" });
 Usuario.hasMany(Invitacion, { foreignKey: "usuarioInvitadoId", as: "invitacionesRecibidas" });
 Invitacion.belongsTo(Usuario, { foreignKey: "usuarioInvitadoId", as: "invitado" });
 
+// Relación 1:N entre Usuario y Viaje
+Usuario.hasMany(Viaje, { foreignKey: "usuarioId" });
+Viaje.belongsTo(Usuario, { foreignKey: "usuarioId" });
 
-export { Usuario, Vehiculo, Invitacion };
+// Relación 1:N entre Vehiculo y Viaje
+Vehiculo.hasMany(Viaje, { foreignKey: "vehiculoId" });
+Viaje.belongsTo(Vehiculo, { foreignKey: "vehiculoId" });
+
+// Relación 1:N entre Usuario y Repostaje
+Usuario.hasMany(Repostaje, { foreignKey: "usuarioId" });
+Repostaje.belongsTo(Usuario, { foreignKey: "usuarioId" });
+
+// Relación 1:N entre Vehiculo y Repostaje
+Vehiculo.hasMany(Repostaje, { foreignKey: "vehiculoId" });
+Repostaje.belongsTo(Vehiculo, { foreignKey: "vehiculoId" });
+
+export { Usuario, Vehiculo, Invitacion, Viaje, Repostaje };
