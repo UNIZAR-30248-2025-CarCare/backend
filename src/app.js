@@ -29,4 +29,12 @@ app.use("/reserva", reservaRoutes);
 import invitacionRoutes from "./routes/invitacionRoutes.js";
 app.use("/invitacion", invitacionRoutes);
 
+// Rutas de viajes
+import viajeRoutes from "./routes/viajeRoutes.js";
+app.use("/viaje", viajeRoutes);
+
+// Rutas de repostajes
+import repostajeRoutes from "./routes/repostajeRoutes.js";
+app.use("/repostaje", repostajeRoutes);
+
 export default app;
