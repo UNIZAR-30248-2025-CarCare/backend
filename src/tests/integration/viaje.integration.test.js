@@ -59,7 +59,7 @@ describe('Viaje - Tests de Integración', () => {
         modelo: 'Corolla',
         nombre: 'Mi Toyota',
         antiguedad: 2020,
-        matricula: 'ABC1234',
+        matricula: 'BBC 1234',
         tipo_combustible: 'Gasolina',
         consumo_medio: 6.5,
         litros_combustible: 50.5,
