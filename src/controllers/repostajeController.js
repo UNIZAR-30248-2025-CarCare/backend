@@ -25,6 +25,10 @@ export const crearRepostaje = async (req, res) => {
       return res.status(400).json({ error: "La fecha no es válida" });
     }
 
+    const inicio = new Date(fecha);
+    if (isNaN(inicio.getTime()) || !fecha) {
+      return res.status(400).json({ error: "Las fechas deben tener un formato válido" });
+    }
     // Comprobar que los litros son float y > 0
     if (typeof litros !== "number" || litros <= 0) {
       return res.status(400).json({ error: "Los litros deben ser un número mayor que 0" });
@@ -56,14 +60,30 @@ export const crearRepostaje = async (req, res) => {
 export const obtenerRepostajesVehiculo = async (req, res) => {
   try {
     const { vehiculoId } = req.params;
-    const repostajes = await Repostaje.findAll({ where: { vehiculoId } });
+    // Incluir el usuario asociado a cada repostaje
+    const repostajes = await Repostaje.findAll({
+      where: { vehiculoId },
+      include: [{ model: Usuario, attributes: ['id', 'nombre'] }]
+    });
 
     // Calcular totales
     const totalLitros = repostajes.reduce((sum, r) => sum + (r.litros || 0), 0);
     const totalPrecio = repostajes.reduce((sum, r) => sum + (r.precioTotal || 0), 0);
 
+    // Mapear para devolver también el nombre del usuario
+    const repostajesConUsuario = repostajes.map(r => ({
+      id: r.id,
+      usuarioId: r.usuarioId,
+      usuarioNombre: r.Usuario ? r.Usuario.nombre : null,
+      vehiculoId: r.vehiculoId,
+      fecha: r.fecha,
+      litros: r.litros,
+      precioPorLitro: r.precioPorLitro,
+      precioTotal: r.precioTotal
+    }));
+
     res.json({
-      repostajes,
+      repostajes: repostajesConUsuario,
       totalLitros,
       totalPrecio
     });
