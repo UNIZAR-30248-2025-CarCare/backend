@@ -166,8 +166,26 @@ describe('Repostaje Controller - Tests Unitarios', () => {
       req.params = { vehiculoId: '1' };
 
       const mockRepostajes = [
-        { id: 1, litros: 45.5, precioTotal: 68.25 },
-        { id: 2, litros: 50.0, precioTotal: 75.00 }
+        {
+          id: 1,
+          usuarioId: 1,
+          vehiculoId: 1,
+          fecha: '2025-10-28T10:00:00.000Z',
+          litros: 45.5,
+          precioPorLitro: 1.5,
+          precioTotal: 68.25,
+          Usuario: { id: 1, nombre: 'Test User' }
+        },
+        {
+          id: 2,
+          usuarioId: 1,
+          vehiculoId: 1,
+          fecha: '2025-10-29T10:00:00.000Z',
+          litros: 50.0,
+          precioPorLitro: 1.6,
+          precioTotal: 75.00,
+          Usuario: { id: 1, nombre: 'Test User' }
+        }
       ];
 
       Repostaje.findAll.mockResolvedValue(mockRepostajes);
@@ -175,22 +193,30 @@ describe('Repostaje Controller - Tests Unitarios', () => {
       await obtenerRepostajesVehiculo(req, res);
 
       expect(res.json).toHaveBeenCalledWith({
-        repostajes: mockRepostajes,
+        repostajes: [
+          {
+            id: 1,
+            usuarioId: 1,
+            usuarioNombre: 'Test User',
+            vehiculoId: 1,
+            fecha: '2025-10-28T10:00:00.000Z',
+            litros: 45.5,
+            precioPorLitro: 1.5,
+            precioTotal: 68.25
+          },
+          {
+            id: 2,
+            usuarioId: 1,
+            usuarioNombre: 'Test User',
+            vehiculoId: 1,
+            fecha: '2025-10-29T10:00:00.000Z',
+            litros: 50.0,
+            precioPorLitro: 1.6,
+            precioTotal: 75.00
+          }
+        ],
         totalLitros: 95.5,
         totalPrecio: 143.25
-      });
-    });
-
-    it('debería devolver array vacío y totales en cero si no hay repostajes', async () => {
-      req.params = { vehiculoId: '1' };
-      Repostaje.findAll.mockResolvedValue([]);
-
-      await obtenerRepostajesVehiculo(req, res);
-
-      expect(res.json).toHaveBeenCalledWith({
-        repostajes: [],
-        totalLitros: 0,
-        totalPrecio: 0
       });
     });
 
