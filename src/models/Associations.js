@@ -8,12 +8,22 @@ Usuario.belongsToMany(Vehiculo, { through: "UsuarioVehiculo" });
 Vehiculo.belongsToMany(Usuario, { through: "UsuarioVehiculo" });
 
 // Relación 1:N entre Usuario y Reserva
-Usuario.hasMany(Reserva, { foreignKey: "usuarioId" });
-Reserva.belongsTo(Usuario, { foreignKey: "usuarioId" });
+Usuario.hasMany(Reserva, { 
+  foreignKey: "UsuarioId",
+  onDelete: "CASCADE" 
+});
+Reserva.belongsTo(Usuario, { 
+  foreignKey: "UsuarioId" 
+});
 
 // Relación 1:N entre Vehiculo y Reserva
-Vehiculo.hasMany(Reserva, { foreignKey: "vehiculoId" });
-Reserva.belongsTo(Vehiculo, { foreignKey: "vehiculoId" });
+Vehiculo.hasMany(Reserva, { 
+  foreignKey: "VehiculoId",
+  onDelete: "CASCADE" 
+});
+Reserva.belongsTo(Vehiculo, { 
+  foreignKey: "VehiculoId" 
+});
 
 // Relación 1:N entre Vehiculo e Invitacion
 Vehiculo.hasMany(Invitacion, { foreignKey: "vehiculoId" });
