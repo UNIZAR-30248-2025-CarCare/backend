@@ -17,8 +17,6 @@ export const registrarRevision = async (req, res) => {
       taller
     } = req.body;
 
-    console.log("🔎 Registrar Revisión - Datos recibidosSSSSSSSSSSSSSSSSSSSSSSSSSSSSS:", req.body);
-
     // Comprobar que el usuario existe
     const usuario = await Usuario.findByPk(usuarioId);
     if (!usuario) {
@@ -65,8 +63,6 @@ export const obtenerRevisiones = async (req, res) => {
   try {
     const { vehiculoId } = req.params;
     const { tipo } = req.query; // opcional
-
-    console.log("🔎 GET Revisiones - vehiculoId recibido:", vehiculoId, "tipo:", tipo);
 
     // Validación básica
     if (!vehiculoId) {

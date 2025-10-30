@@ -46,13 +46,8 @@ describe('Revision - Tests de Integración', () => {
         contraseña: 'password123'
       });
 
-      console.log('Login response:', loginResponse.body); // DEBUG
-
     authToken = loginResponse.body.token;
     userId = loginResponse.body.userId;
-
-    console.log('Auth token:', authToken); // DEBUG
-  console.log('User ID:', userId); // DEBUG
 
     // Crear vehículo de prueba y asociarlo al usuario
     const vehiculoResponse = await request(app)
@@ -73,11 +68,8 @@ describe('Revision - Tests de Integración', () => {
         tipo: 'Coche'
       });
       
- console.log('Vehiculo response:', vehiculoResponse.body); // DEBUG
-
     vehiculoId = vehiculoResponse.body.vehiculo.id;
 
-    console.log('Vehiculo ID:', vehiculoId); // DEBUG
   });
 
   describe('POST /api/revisiones/registrar', () => {

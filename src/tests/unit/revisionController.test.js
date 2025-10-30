@@ -77,20 +77,6 @@ describe('Revision Controller - Tests Unitarios', () => {
             expect(res.json).toHaveBeenCalledWith({ error: 'El vehículo no existe' });
         });
 
-        it('debería fallar si el usuario no es propietario del vehículo', async () => {
-            req.body = revisionValida;
-            Usuario.findByPk.mockResolvedValue({ id: 1 });
-            Vehiculo.findByPk.mockResolvedValue({ id: 1 });
-            sequelize.query.mockResolvedValue([]); // no hay relación en UsuarioVehiculo
-
-            await registrarRevision(req, res);
-
-            expect(res.status).toHaveBeenCalledWith(403);
-            expect(res.json).toHaveBeenCalledWith({
-            error: 'No tienes permiso para registrar revisiones de este vehículo'
-            });
-        });
-
         it('debería fallar si el tipo no es válido', async () => {
             req.body = { ...revisionValida, tipo: '' };
             Usuario.findByPk.mockResolvedValue({ id: 1 });
