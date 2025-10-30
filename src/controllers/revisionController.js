@@ -79,17 +79,28 @@ export const obtenerRevisiones = async (req, res) => {
     const { vehiculoId } = req.params;
     const { tipo } = req.query; // opcional
 
+    console.log("🔎 GET Revisiones - vehiculoId recibido:", vehiculoId, "tipo:", tipo);
+
+    // Validación básica
+    if (!vehiculoId) {
+      return res.status(400).json({ error: "vehiculoId es obligatorio" });
+    }
+
+    // Construir cláusula WHERE
     const whereClause = { vehiculoId };
     if (tipo) {
       whereClause.tipo = tipo;
     }
 
+    // Obtener revisiones
     const revisiones = await Revision.findAll({
       where: whereClause,
-      include: [{ model: Usuario, attributes: ["nombre"] }],
-      order: [["fecha", "DESC"]]
+      // Incluimos el usuario solo si la relación está definida
+      include: Usuario ? [{ model: Usuario, attributes: ["nombre"] }] : [],
+      order: [["fecha", "DESC"]],
     });
 
+    // Mapear resultado y devolver solo lo necesario
     const result = revisiones.map(r => {
       const rev = r.toJSON();
       rev.usuario = rev.Usuario?.nombre || null;
@@ -100,7 +111,9 @@ export const obtenerRevisiones = async (req, res) => {
 
     res.status(200).json({ revisiones: result });
   } catch (error) {
+    console.error("❌ Error en obtenerRevisiones:", error);
     res.status(500).json({ error: "Error al obtener las revisiones", detalles: error.message });
   }
 };
+
 

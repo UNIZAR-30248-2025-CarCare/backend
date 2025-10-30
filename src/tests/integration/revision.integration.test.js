@@ -67,6 +67,8 @@ describe('Revision - Tests de Integración', () => {
         estado: 'Activo',
         tipo: 'Coche'
       });
+      
+
 
     vehiculoId = vehiculoResponse.body.vehiculo.id;
   });
