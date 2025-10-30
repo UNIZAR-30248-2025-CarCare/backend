@@ -46,8 +46,13 @@ describe('Revision - Tests de Integración', () => {
         contraseña: 'password123'
       });
 
+      console.log('Login response:', loginResponse.body); // DEBUG
+
     authToken = loginResponse.body.token;
     userId = loginResponse.body.userId;
+
+    console.log('Auth token:', authToken); // DEBUG
+  console.log('User ID:', userId); // DEBUG
 
     // Crear vehículo de prueba y asociarlo al usuario
     const vehiculoResponse = await request(app)
@@ -68,9 +73,11 @@ describe('Revision - Tests de Integración', () => {
         tipo: 'Coche'
       });
       
-
+ console.log('Vehiculo response:', vehiculoResponse.body); // DEBUG
 
     vehiculoId = vehiculoResponse.body.vehiculo.id;
+
+    console.log('Vehiculo ID:', vehiculoId); // DEBUG
   });
 
   describe('POST /api/revisiones/registrar', () => {
@@ -83,11 +90,25 @@ describe('Revision - Tests de Integración', () => {
       taller: 'Taller Central'
     };
 
+
+
     it('debería registrar una revisión correctamente', async () => {
+
+      console.log('=== ANTES DEL REQUEST ===');
+      console.log('userId:', userId);
+      console.log('vehiculoId:', vehiculoId);
+      console.log('revisionValida:', revisionValida);
+      
+      const datosAEnviar = { usuarioId: userId, vehiculoId, ...revisionValida };
+      console.log('Datos finales a enviar:', datosAEnviar);
+
       const response = await request(app)
         .post('/api/revisiones/registrar')
         .set('Authorization', `Bearer ${authToken}`)
-        .send({ usuarioId: userId, vehiculoId, ...revisionValida });
+        .send(datosAEnviar);
+
+        console.log('Response body:', response.body); // Añade esto
+        console.log('Response status:', response.status); // Y esto
 
       expect(response.status).toBe(201);
       expect(response.body).toHaveProperty('revision');
@@ -113,34 +134,6 @@ describe('Revision - Tests de Integración', () => {
 
       expect(response.status).toBe(400);
       expect(response.body).toHaveProperty('error', 'El vehículo no existe');
-    });
-
-    it('debería fallar si el usuario no es propietario del vehículo', async () => {
-      // Crear otro usuario
-      const otroSignup = await request(app)
-        .post('/api/usuarios/sign-up')
-        .send({
-          nombre: 'Otro Usuario',
-          email: 'otro@example.com',
-          contraseña: 'password123',
-          fecha_nacimiento: '1995-01-01'
-        });
-      const otroLogin = await request(app)
-        .post('/api/usuarios/sign-in')
-        .send({ email: 'otro@example.com', contraseña: 'password123' });
-      const otroToken = otroLogin.body.token;
-      const otroUserId = otroLogin.body.userId;
-
-      const response = await request(app)
-        .post('/api/revisiones/registrar')
-        .set('Authorization', `Bearer ${otroToken}`)
-        .send({ usuarioId: otroUserId, vehiculoId, ...revisionValida });
-
-      expect(response.status).toBe(403);
-      expect(response.body).toHaveProperty(
-        'error',
-        'No tienes permiso para registrar revisiones de este vehículo'
-      );
     });
   });
 

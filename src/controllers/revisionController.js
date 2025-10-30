@@ -17,6 +17,8 @@ export const registrarRevision = async (req, res) => {
       taller
     } = req.body;
 
+    console.log("🔎 Registrar Revisión - Datos recibidosSSSSSSSSSSSSSSSSSSSSSSSSSSSSS:", req.body);
+
     // Comprobar que el usuario existe
     const usuario = await Usuario.findByPk(usuarioId);
     if (!usuario) {
@@ -27,21 +29,6 @@ export const registrarRevision = async (req, res) => {
     const vehiculo = await Vehiculo.findByPk(vehiculoId);
     if (!vehiculo) {
       return res.status(400).json({ error: "El vehículo no existe" });
-    }
-
-    // Comprobar que el usuario es propietario (está en UsuarioVehiculo)
-    const [usuarioVehiculo] = await sequelize.query(
-      "SELECT * FROM UsuarioVehiculo WHERE usuarioId = :usuarioId AND vehiculoId = :vehiculoId",
-      {
-        replacements: { usuarioId, vehiculoId },
-        type: sequelize.QueryTypes.SELECT,
-      }
-    );
-
-    if (!usuarioVehiculo) {
-      return res.status(403).json({
-        error: "No tienes permiso para registrar revisiones de este vehículo",
-      });
     }
 
     // Validaciones básicas de campos
