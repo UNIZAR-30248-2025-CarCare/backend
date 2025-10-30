@@ -15,26 +15,48 @@ export const registrar = async (req, res) => {
     const usuario = await Usuario.findByPk(UsuarioId);
     const vehiculo = await Vehiculo.findByPk(VehiculoId);
 
-    if (!usuario || !vehiculo) {
-      return res.status(404).json({ error: "Usuario o Vehículo no encontrado." });
+    if (!usuario) {
+      return res.status(404).json({ error: "Usuario no encontrado." });
+    }
+    
+    if (!vehiculo) {
+      return res.status(404).json({ error: "Vehículo no encontrado." });
     }
 
-    // Crear la reserva
+    // Validar que el vehículo está disponible
+    if (vehiculo.disponible === false) {
+      return res.status(400).json({ error: "El vehículo no está disponible para reservas." });
+    }
+
+    // Validar que el usuario tiene acceso al vehículo
+    const tieneAcceso = await vehiculo.hasUsuario(UsuarioId);
+    if (!tieneAcceso) {
+      return res.status(403).json({ error: "No tienes permisos para reservar este vehículo." });
+    }
+
+    // Crear la reserva (las validaciones del modelo se ejecutan automáticamente)
     const reserva = await Reserva.create({
-      motivo: tipo, // El frontend envía "tipo" (TRABAJO/PERSONAL)
+      motivo: tipo,
       fechaInicio,
-      fechaFin: fechaFinal, // El frontend envía "fechaFinal"
+      fechaFin: fechaFinal,
       UsuarioId,
       VehiculoId,
       horaInicio,
       horaFin,
-      descripcion: notas, // El frontend envía "notas"
+      descripcion: notas,
     });
 
-    res.status(201).json(reserva);
+    res.status(201).json({
+      mensaje: "Reserva creada exitosamente",
+      reserva
+    });
   } catch (error) {
     console.error("Error al crear reserva:", error);
-    res.status(400).json({ error: error.message });
+    
+    // Devolver errores de validación del modelo de forma clara
+    res.status(400).json({ 
+      error: error.message || "Error al crear la reserva"
+    });
   }
 };
 
@@ -77,19 +99,29 @@ export const actualizar = async (req, res) => {
       return res.status(404).json({ error: "Reserva no encontrada." });
     }
 
+    // Verificar que la reserva pertenece al usuario
+    if (reserva.UsuarioId !== req.usuario.id) {
+      return res.status(403).json({ error: "No tienes permisos para modificar esta reserva." });
+    }
+
     // Actualizar campos
     reserva.motivo = motivo ?? reserva.motivo;
     reserva.fechaInicio = fechaInicio ?? reserva.fechaInicio;
     reserva.fechaFin = fechaFin ?? reserva.fechaFin;
-    reserva.UsuarioId = UsuarioId ?? reserva.UsuarioId;
     reserva.VehiculoId = VehiculoId ?? reserva.VehiculoId;
     reserva.horaInicio = horaInicio ?? reserva.horaInicio;
     reserva.horaFin = horaFin ?? reserva.horaFin;
     reserva.descripcion = descripcion ?? reserva.descripcion;
 
+    // save() ejecutará los hooks de validación (beforeUpdate)
     await reserva.save();
-    res.json(reserva);
+    
+    res.json({
+      mensaje: "Reserva actualizada exitosamente",
+      reserva
+    });
   } catch (error) {
+    console.error("Error al actualizar reserva:", error);
     res.status(400).json({ error: error.message });
   }
 };
@@ -99,12 +131,20 @@ export const eliminar = async (req, res) => {
   try {
     const { id } = req.params;
     const reserva = await Reserva.findByPk(id);
+    
     if (!reserva) {
       return res.status(404).json({ error: "Reserva no encontrada." });
     }
+
+    // Verificar que la reserva pertenece al usuario
+    if (reserva.UsuarioId !== req.usuario.id) {
+      return res.status(403).json({ error: "No tienes permisos para eliminar esta reserva." });
+    }
+
     await reserva.destroy();
     res.json({ mensaje: "Reserva eliminada correctamente." });
   } catch (error) {
+    console.error("Error al eliminar reserva:", error);
     res.status(500).json({ error: error.message });
   }
 };
