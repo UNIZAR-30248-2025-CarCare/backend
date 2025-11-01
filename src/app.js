@@ -37,4 +37,8 @@ app.use("/viaje", viajeRoutes);
 import repostajeRoutes from "./routes/repostajeRoutes.js";
 app.use("/repostaje", repostajeRoutes);
 
+// Rutas de revisiones
+import revisionRoutes from "./routes/revisionRoutes.js";
+app.use("/revision", revisionRoutes);
+
 export default app;
