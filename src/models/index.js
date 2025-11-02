@@ -3,6 +3,7 @@ import Vehiculo from "./Vehiculo.js";
 import Invitacion from "./Invitacion.js";
 import Viaje from "./Viaje.js";
 import Repostaje from "./Repostaje.js";
+import Incidencia from "./Incidencia.js";
 
 // Relación N:M (muchos a muchos)
 Usuario.belongsToMany(Vehiculo, { through: "UsuarioVehiculo" });
@@ -36,4 +37,12 @@ Repostaje.belongsTo(Usuario, { foreignKey: "usuarioId" });
 Vehiculo.hasMany(Repostaje, { foreignKey: "vehiculoId" });
 Repostaje.belongsTo(Vehiculo, { foreignKey: "vehiculoId" });
 
-export { Usuario, Vehiculo, Invitacion, Viaje, Repostaje };
+// Una Incidencia pertenece a un Vehículo
+Incidencia.belongsTo(Vehiculo, { foreignKey: "vehiculoId",onDelete: "CASCADE"});
+Vehiculo.hasMany(Incidencia, { foreignKey: "vehiculoId",onDelete: "CASCADE"});
+
+// Una Incidencia pertenece a un Usuario (creador)
+Incidencia.belongsTo(Usuario, { foreignKey: "usuarioId", onDelete: "CASCADE" });
+Usuario.hasMany(Incidencia, { foreignKey: "usuarioId", onDelete: "CASCADE" });
+
+export { Usuario, Vehiculo, Invitacion, Viaje, Repostaje, Incidencia };
