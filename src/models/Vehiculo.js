@@ -59,6 +59,10 @@ const Vehiculo = sequelize.define("Vehiculo", {
     allowNull: false,
     defaultValue: "Coche",
   },
+  propietarioId: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
 });
 
 export default Vehiculo;
