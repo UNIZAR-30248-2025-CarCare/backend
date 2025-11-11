@@ -85,8 +85,8 @@ describe('Reserva - Tests de Integración', () => {
         .set('Authorization', `Bearer ${token}`)
         .send({
           tipo: 'TRABAJO',
-          fechaInicio: '2025-11-10',
-          fechaFinal: '2025-11-11',
+          fechaInicio: '2026-11-10',
+          fechaFinal: '2026-11-11',
           vehiculoId: vehiculo.id,
           horaInicio: '08:00:00',
           horaFin: '18:00:00',
