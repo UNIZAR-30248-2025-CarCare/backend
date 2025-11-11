@@ -1,5 +1,9 @@
 import { DataTypes } from "sequelize";
-import sequelize from "../config/database.js";
+const isTest = process.env.NODE_ENV === 'test';
+const sequelize = isTest 
+  ? (await import("../config/database.test.js")).default
+  : (await import("../config/database.js")).default;
+
 
 const Incidencia = sequelize.define("Incidencia", {
   id: {

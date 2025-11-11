@@ -77,9 +77,10 @@ export const crearIncidencia = async (req, res) => {
         incidencia: nuevaIncidencia 
     });
   } catch (error) {
+    console.error('ERROR al crear incidencia:', error); // <-- Añade esto
     res.status(500).json({ 
       error: "Error al crear la incidencia.", 
-      detalles: error.message 
+      detalles: error.message || error.toString() // <-- Así ves el mensaje real
     });
   }
 };
