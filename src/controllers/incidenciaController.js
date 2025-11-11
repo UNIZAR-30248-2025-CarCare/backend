@@ -28,13 +28,13 @@ export const crearIncidencia = async (req, res) => {
     }
 
     // Validar tipo de incidencia
-    const tiposValidos = ["Avería", "Daño", "Otro"];
+    const tiposValidos = ["AVERIA", "DAÑO", "OTRO"];
     if (!tiposValidos.includes(tipo)) {
       return res.status(400).json({ error: "Tipo de incidencia no válido." });
     }
 
     // Validar prioridad
-    const prioridadesValidas = ["Alta", "Media", "Baja"];
+    const prioridadesValidas = ["ALTA", "MEDIA", "BAJA"];
     if (!prioridadesValidas.includes(prioridad)) {
       return res.status(400).json({ error: "Prioridad no válida." });
     }
