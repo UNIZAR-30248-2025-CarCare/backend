@@ -4,6 +4,7 @@ import Invitacion from "./Invitacion.js";
 import Viaje from "./Viaje.js";
 import Repostaje from "./Repostaje.js";
 import Incidencia from "./Incidencia.js";
+import Revision from "./Revision.js";
 
 // Relación N:M (muchos a muchos)
 Usuario.belongsToMany(Vehiculo, { through: "UsuarioVehiculo" });
@@ -45,4 +46,13 @@ Vehiculo.hasMany(Incidencia, { foreignKey: "vehiculoId",onDelete: "CASCADE"});
 Incidencia.belongsTo(Usuario, { foreignKey: "usuarioId", onDelete: "CASCADE" });
 Usuario.hasMany(Incidencia, { foreignKey: "usuarioId", onDelete: "CASCADE" });
 
-export { Usuario, Vehiculo, Invitacion, Viaje, Repostaje, Incidencia };
+// Relación 1:N entre Usuario y Revision
+Usuario.hasMany(Revision, { foreignKey: "usuarioId" });
+Revision.belongsTo(Usuario, { foreignKey: "usuarioId" });
+
+// Relación 1:N entre Vehiculo y Revision
+Vehiculo.hasMany(Revision, { foreignKey: "vehiculoId" });
+Revision.belongsTo(Vehiculo, { foreignKey: "vehiculoId" });
+
+export { Usuario, Vehiculo, Invitacion, Viaje, Repostaje, Revision, Incidencia };
+

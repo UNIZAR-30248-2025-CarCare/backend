@@ -40,5 +40,12 @@ app.use("/repostaje", repostajeRoutes);
 // Rutas de incidencias
 import incidenciaRoutes from "./routes/incidenciaRoutes.js";
 app.use("/incidencia", incidenciaRoutes);
+// Rutas de revisiones
+import revisionRoutes from "./routes/revisionRoutes.js";
+app.use("/revision", revisionRoutes);
+
+// Rutas de estadísticas
+import estadisticasRoutes from "./routes/estadisticasRoutes.js";
+app.use("/estadisticas", estadisticasRoutes);
 
 export default app;
