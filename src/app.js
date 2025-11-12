@@ -41,4 +41,8 @@ app.use("/repostaje", repostajeRoutes);
 import revisionRoutes from "./routes/revisionRoutes.js";
 app.use("/revision", revisionRoutes);
 
+// Rutas de estadísticas
+import estadisticasRoutes from "./routes/estadisticasRoutes.js";
+app.use("/estadisticas", estadisticasRoutes);
+
 export default app;

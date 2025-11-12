@@ -45,4 +45,4 @@ Revision.belongsTo(Usuario, { foreignKey: "usuarioId" });
 Vehiculo.hasMany(Revision, { foreignKey: "vehiculoId" });
 Revision.belongsTo(Vehiculo, { foreignKey: "vehiculoId" });
 
-export { Usuario, Vehiculo, Invitacion, Viaje, Repostaje };
+export { Usuario, Vehiculo, Invitacion, Viaje, Repostaje, Revision };
