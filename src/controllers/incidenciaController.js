@@ -28,7 +28,7 @@ export const crearIncidencia = async (req, res) => {
     }
 
     // Validar tipo de incidencia
-    const tiposValidos = ["AVERIA", "DAÑO", "OTRO"];
+    const tiposValidos = ["AVERIA", "ACCIDENTE", "MANTENIMIENTO", "OTRO"];
     if (!tiposValidos.includes(tipo)) {
       return res.status(400).json({ error: "Tipo de incidencia no válido." });
     }
@@ -220,7 +220,7 @@ export const actualizarEstadoIncidencia = async (req, res) => {
     const { estado } = req.body;
 
     // Validar estado
-    const estadosValidos = ["Pendiente", "En progreso", "Resuelta", "Cancelada"];
+    const estadosValidos = ["PENDIENTE", "EN PROGRESO", "RESUELTA", "CANCELADA"];
     if (!estadosValidos.includes(estado)) {
       return res.status(400).json({ error: "Estado no válido." });
     }
@@ -297,7 +297,7 @@ export const actualizarIncidencia = async (req, res) => {
 
     // Validar tipo si se proporciona
     if (tipo) {
-      const tiposValidos = ["Avería", "Daño", "Otro"];
+    const tiposValidos = ["AVERIA", "ACCIDENTE", "MANTENIMIENTO", "OTRO"];
       if (!tiposValidos.includes(tipo)) {
         return res.status(400).json({ error: "Tipo de incidencia no válido." });
       }
@@ -306,7 +306,7 @@ export const actualizarIncidencia = async (req, res) => {
 
     // Validar prioridad si se proporciona
     if (prioridad) {
-      const prioridadesValidas = ["Alta", "Media", "Baja"];
+      const prioridadesValidas = ["ALTA", "MEDIA", "BAJA"];
       if (!prioridadesValidas.includes(prioridad)) {
         return res.status(400).json({ error: "Prioridad no válida." });
       }
@@ -315,7 +315,7 @@ export const actualizarIncidencia = async (req, res) => {
 
     // Validar estado si se proporciona
     if (estado) {
-      const estadosValidos = ["Pendiente", "En progreso", "Resuelta", "Cancelada"];
+      const estadosValidos = ["PENDIENTE", "EN PROGRESO", "RESUELTA", "CANCELADA"];
       if (!estadosValidos.includes(estado)) {
         return res.status(400).json({ error: "Estado no válido." });
       }

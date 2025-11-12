@@ -28,7 +28,7 @@ const Incidencia = sequelize.define("Incidencia", {
     }
   },
   tipo: {
-    type: DataTypes.ENUM("AVERIA", "DAÑO", "OTRO"),
+    type: DataTypes.ENUM("AVERIA", "ACCIDENTE", "MANTENIMIENTO", "OTRO"),
     allowNull: false,
   },
   prioridad: {
