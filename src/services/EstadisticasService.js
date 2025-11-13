@@ -4,8 +4,8 @@ const sequelize = isTest
   ? (await import("../config/database.test.js")).default
   : (await import("../config/database.js")).default;
 
-import Repostaje from "./Repostaje.js";
-import Viaje from "./Viaje.js";
+import Repostaje from "../models/Repostaje.js";
+import Viaje from "../models/Viaje.js";
 
 class EstadisticasService {
   static async calcularEstadisticas(vehiculoId, mes, ano) {
