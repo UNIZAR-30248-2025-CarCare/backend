@@ -48,4 +48,8 @@ app.use("/revision", revisionRoutes);
 import estadisticasRoutes from "./routes/estadisticasRoutes.js";
 app.use("/estadisticas", estadisticasRoutes);
 
+// Rutas de búsqueda
+import busquedaRoutes from "./routes/busquedaRoutes.js";
+app.use("/busqueda", busquedaRoutes);
+
 export default app;
