@@ -65,7 +65,8 @@ describe('Incidencia - Tests de Integración', () => {
         litros_combustible: 50.5,
         ubicacion_actual: { latitud: 40.4168, longitud: -3.7038 },
         estado: 'Activo',
-        tipo: 'Coche'
+        tipo: 'Coche',
+        propietarioId: userId
       });
 
     vehiculoId = vehiculoResponse.body.vehiculo.id;
@@ -73,8 +74,8 @@ describe('Incidencia - Tests de Integración', () => {
 
   describe('POST /api/incidencia/crear', () => {
     const incidenciaValida = {
-      tipo: 'Avería',
-      prioridad: 'Alta',
+      tipo: 'AVERIA',
+      prioridad: 'ALTA',
       titulo: 'Problema con el motor',
       descripcion: 'El motor hace un ruido extraño',
       fotos: ['https://example.com/foto1.jpg'],
@@ -99,7 +100,7 @@ describe('Incidencia - Tests de Integración', () => {
       expect(response.status).toBe(200);
       expect(response.body).toHaveProperty('incidencia');
       expect(response.body.incidencia).toHaveProperty('titulo', 'Problema con el motor');
-      expect(response.body.incidencia).toHaveProperty('estado', 'Pendiente');
+      expect(response.body.incidencia).toHaveProperty('estado', 'PENDIENTE');
       expect(response.body.incidencia).toHaveProperty('usuarioId', userId);
     });
 
@@ -192,8 +193,8 @@ describe('Incidencia - Tests de Integración', () => {
         .set('Authorization', `Bearer ${authToken}`)
         .send({
           vehiculoId: vehiculoId,
-          tipo: 'Avería',
-          prioridad: 'Alta',
+          tipo: 'AVERIA',
+          prioridad: 'ALTA',
           titulo: 'Incidencia 1',
           descripcion: 'Descripción 1',
           compartirConGrupo: true
@@ -204,8 +205,8 @@ describe('Incidencia - Tests de Integración', () => {
         .set('Authorization', `Bearer ${authToken}`)
         .send({
           vehiculoId: vehiculoId,
-          tipo: 'Daño',
-          prioridad: 'Media',
+          tipo: 'DAÑO',
+          prioridad: 'MEDIA',
           titulo: 'Incidencia 2',
           descripcion: 'Descripción 2',
           compartirConGrupo: true
@@ -240,7 +241,8 @@ describe('Incidencia - Tests de Integración', () => {
           litros_combustible: 45.0,
           ubicacion_actual: { latitud: 40.4168, longitud: -3.7038 },
           estado: 'Activo',
-          tipo: 'Coche'
+          tipo: 'Coche',
+          propietarioId: userId
         });
 
       const response = await request(app)
@@ -275,8 +277,8 @@ describe('Incidencia - Tests de Integración', () => {
         .set('Authorization', `Bearer ${authToken}`)
         .send({
           vehiculoId: vehiculoId,
-          tipo: 'Avería',
-          prioridad: 'Alta',
+          tipo: 'AVERIA',
+          prioridad: 'ALTA',
           titulo: 'Incidencia del usuario',
           descripcion: 'Descripción de prueba',
           compartirConGrupo: true
@@ -312,8 +314,8 @@ describe('Incidencia - Tests de Integración', () => {
         .set('Authorization', `Bearer ${authToken}`)
         .send({
           vehiculoId: vehiculoId,
-          tipo: 'Avería',
-          prioridad: 'Alta',
+          tipo: 'AVERIA',
+          prioridad: 'ALTA',
           titulo: 'Incidencia específica',
           descripcion: 'Descripción específica',
           compartirConGrupo: true
@@ -359,8 +361,8 @@ describe('Incidencia - Tests de Integración', () => {
         .set('Authorization', `Bearer ${authToken}`)
         .send({
           vehiculoId: vehiculoId,
-          tipo: 'Avería',
-          prioridad: 'Alta',
+          tipo: 'AVERIA',
+          prioridad: 'ALTA',
           titulo: 'Incidencia para actualizar',
           descripcion: 'Descripción',
           compartirConGrupo: true
@@ -373,20 +375,20 @@ describe('Incidencia - Tests de Integración', () => {
       const response = await request(app)
         .patch(`/api/incidencia/${incidenciaId}/estado`)
         .set('Authorization', `Bearer ${authToken}`)
-        .send({ estado: 'En progreso' });
+        .send({ estado: 'EN PROGRESO' });
 
       expect(response.status).toBe(200);
-      expect(response.body.incidencia).toHaveProperty('estado', 'En progreso');
+      expect(response.body.incidencia).toHaveProperty('estado', 'EN PROGRESO');
     });
 
     it('debería establecer fecha de resolución al marcar como resuelta', async () => {
       const response = await request(app)
         .patch(`/api/incidencia/${incidenciaId}/estado`)
         .set('Authorization', `Bearer ${authToken}`)
-        .send({ estado: 'Resuelta' });
+        .send({ estado: 'RESUELTA' });
 
       expect(response.status).toBe(200);
-      expect(response.body.incidencia).toHaveProperty('estado', 'Resuelta');
+      expect(response.body.incidencia).toHaveProperty('estado', 'RESUELTA');
       expect(response.body.incidencia.fechaResolucion).not.toBeNull();
     });
 
@@ -403,7 +405,7 @@ describe('Incidencia - Tests de Integración', () => {
     it('debería rechazar petición sin autenticación', async () => {
       const response = await request(app)
         .patch(`/api/incidencia/${incidenciaId}/estado`)
-        .send({ estado: 'En progreso' });
+        .send({ estado: 'EN PROGRESO' });
 
       expect(response.status).toBe(401);
     });
@@ -418,8 +420,8 @@ describe('Incidencia - Tests de Integración', () => {
         .set('Authorization', `Bearer ${authToken}`)
         .send({
           vehiculoId: vehiculoId,
-          tipo: 'Avería',
-          prioridad: 'Alta',
+          tipo: 'AVERIA',
+          prioridad: 'ALTA',
           titulo: 'Título original',
           descripcion: 'Descripción original',
           compartirConGrupo: true
@@ -433,15 +435,15 @@ describe('Incidencia - Tests de Integración', () => {
         .put(`/api/incidencia/${incidenciaId}`)
         .set('Authorization', `Bearer ${authToken}`)
         .send({
-          tipo: 'Daño',
-          prioridad: 'Baja',
+          tipo: 'DAÑO',
+          prioridad: 'BAJA',
           titulo: 'Título actualizado',
           descripcion: 'Descripción actualizada'
         });
 
       expect(response.status).toBe(200);
-      expect(response.body.incidencia).toHaveProperty('tipo', 'Daño');
-      expect(response.body.incidencia).toHaveProperty('prioridad', 'Baja');
+      expect(response.body.incidencia).toHaveProperty('tipo', 'DAÑO');
+      expect(response.body.incidencia).toHaveProperty('prioridad', 'BAJA');
       expect(response.body.incidencia).toHaveProperty('titulo', 'Título actualizado');
     });
 
@@ -483,8 +485,8 @@ describe('Incidencia - Tests de Integración', () => {
         .set('Authorization', `Bearer ${authToken}`)
         .send({
           vehiculoId: vehiculoId,
-          tipo: 'Avería',
-          prioridad: 'Alta',
+          tipo: 'AVERIA',
+          prioridad: 'ALTA',
           titulo: 'Incidencia para eliminar',
           descripcion: 'Descripción',
           compartirConGrupo: true
