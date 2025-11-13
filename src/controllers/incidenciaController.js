@@ -28,7 +28,7 @@ export const crearIncidencia = async (req, res) => {
     }
 
     // Validar tipo de incidencia
-    const tiposValidos = ["AVERIA", "ACCIDENTE", "MANTENIMIENTO", "OTRO"];
+    const tiposValidos = ["AVERIA", "ACCIDENTE", "MANTENIMIENTO", "OTRO", "DAÑO"];
     if (!tiposValidos.includes(tipo)) {
       return res.status(400).json({ error: "Tipo de incidencia no válido." });
     }
@@ -68,7 +68,7 @@ export const crearIncidencia = async (req, res) => {
       descripcion,
       fotos: fotos || [],
       compartirConGrupo: compartirConGrupo !== undefined ? compartirConGrupo : true,
-      estado: "Pendiente",
+      estado: "PENDIENTE",
       fechaCreacion: new Date()
     });
 
@@ -249,7 +249,7 @@ export const actualizarEstadoIncidencia = async (req, res) => {
     incidencia.estado = estado;
     
     // Si se marca como resuelta, guardar fecha de resolución
-    if (estado === "Resuelta") {
+    if (estado === "RESUELTA") {
       incidencia.fechaResolucion = new Date();
     }
 
@@ -297,7 +297,7 @@ export const actualizarIncidencia = async (req, res) => {
 
     // Validar tipo si se proporciona
     if (tipo) {
-    const tiposValidos = ["AVERIA", "ACCIDENTE", "MANTENIMIENTO", "OTRO"];
+    const tiposValidos = ["AVERIA", "ACCIDENTE", "MANTENIMIENTO", "DAÑO", "OTRO"];
       if (!tiposValidos.includes(tipo)) {
         return res.status(400).json({ error: "Tipo de incidencia no válido." });
       }
@@ -321,7 +321,7 @@ export const actualizarIncidencia = async (req, res) => {
       }
       incidencia.estado = estado;
       
-      if (estado === "Resuelta" && !incidencia.fechaResolucion) {
+      if (estado === "RESUELTA" && !incidencia.fechaResolucion) {
         incidencia.fechaResolucion = new Date();
       }
     }

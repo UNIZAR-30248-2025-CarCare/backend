@@ -1,9 +1,9 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { getEstadisticas } from '../../controllers/estadisticasController.js';
-import EstadisticasService from '../../models/Estadisticas.js';
+import EstadisticasService from '../../services/EstadisticasService.js';
 
 // Mock del servicio
-vi.mock('../../models/Estadisticas.js');
+vi.mock('../../services/EstadisticasService.js');
 
 describe('Estadísticas Controller - Tests Unitarios', () => {
   let req, res;

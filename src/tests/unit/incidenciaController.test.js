@@ -46,8 +46,8 @@ describe('Incidencia Controller - Tests Unitarios', () => {
   describe('crearIncidencia', () => {
     const incidenciaValida = {
       vehiculoId: 1,
-      tipo: 'Avería',
-      prioridad: 'Alta',
+      tipo: 'AVERIA',
+      prioridad: 'ALTA',
       titulo: 'Problema con el motor',
       descripcion: 'El motor hace un ruido extraño',
       fotos: ['https://example.com/foto1.jpg'],
@@ -66,7 +66,7 @@ describe('Incidencia Controller - Tests Unitarios', () => {
         id: 1,
         ...incidenciaValida,
         usuarioId: 1,
-        estado: 'Pendiente',
+        estado: 'PENDIENTE',
         fechaCreacion: new Date()
       };
 
@@ -85,7 +85,7 @@ describe('Incidencia Controller - Tests Unitarios', () => {
     it('debería rechazar si faltan campos obligatorios', async () => {
       req.body = {
         vehiculoId: 1,
-        tipo: 'Avería'
+        tipo: 'AVERIA'
         // Faltan campos obligatorios
       };
 
@@ -168,13 +168,13 @@ describe('Incidencia Controller - Tests Unitarios', () => {
       const mockIncidencias = [
         {
           id: 1,
-          tipo: 'Avería',
+          tipo: 'AVERIA',
           titulo: 'Problema 1',
           Usuario: { id: 1, nombre: 'Test User', email: 'test@example.com' }
         },
         {
           id: 2,
-          tipo: 'Daño',
+          tipo: 'DAÑO',
           titulo: 'Problema 2',
           Usuario: { id: 1, nombre: 'Test User', email: 'test@example.com' }
         }
@@ -235,7 +235,7 @@ describe('Incidencia Controller - Tests Unitarios', () => {
       const mockIncidencias = [
         {
           id: 1,
-          tipo: 'Avería',
+          tipo: 'AVERIA',
           Usuario: { id: 1, nombre: 'Test User', email: 'test@example.com' },
           Vehiculo: { id: 1, nombre: 'Vehículo 1' }
         }
@@ -270,7 +270,7 @@ describe('Incidencia Controller - Tests Unitarios', () => {
 
       const mockIncidencia = {
         id: 1,
-        tipo: 'Avería',
+        tipo: 'AVERIA',
         Usuario: { id: 1, nombre: 'Test User', email: 'test@example.com' },
         Vehiculo: {
           id: 1,
@@ -325,11 +325,11 @@ describe('Incidencia Controller - Tests Unitarios', () => {
   describe('actualizarEstadoIncidencia', () => {
     it('debería actualizar el estado de una incidencia', async () => {
       req.params = { incidenciaId: '1' };
-      req.body = { estado: 'En progreso' };
+      req.body = { estado: 'EN PROGRESO' };
 
       const mockIncidencia = {
         id: 1,
-        estado: 'Pendiente',
+        estado: 'PENDIENTE',
         save: vi.fn(),
         Vehiculo: {
           Usuarios: [{ id: 1 }]
@@ -340,18 +340,18 @@ describe('Incidencia Controller - Tests Unitarios', () => {
 
       await actualizarEstadoIncidencia(req, res);
 
-      expect(mockIncidencia.estado).toBe('En progreso');
+      expect(mockIncidencia.estado).toBe('EN PROGRESO');
       expect(mockIncidencia.save).toHaveBeenCalled();
       expect(res.status).toHaveBeenCalledWith(200);
     });
 
     it('debería establecer fecha de resolución al marcar como resuelta', async () => {
       req.params = { incidenciaId: '1' };
-      req.body = { estado: 'Resuelta' };
+      req.body = { estado: 'RESUELTA' };
 
       const mockIncidencia = {
         id: 1,
-        estado: 'Pendiente',
+        estado: 'PENDIENTE',
         fechaResolucion: null,
         save: vi.fn(),
         Vehiculo: {
@@ -363,7 +363,7 @@ describe('Incidencia Controller - Tests Unitarios', () => {
 
       await actualizarEstadoIncidencia(req, res);
 
-      expect(mockIncidencia.estado).toBe('Resuelta');
+      expect(mockIncidencia.estado).toBe('RESUELTA');
       expect(mockIncidencia.fechaResolucion).not.toBeNull();
       expect(mockIncidencia.save).toHaveBeenCalled();
     });
@@ -385,16 +385,16 @@ describe('Incidencia Controller - Tests Unitarios', () => {
     it('debería actualizar una incidencia completa', async () => {
       req.params = { incidenciaId: '1' };
       req.body = {
-        tipo: 'Daño',
-        prioridad: 'Baja',
+        tipo: 'DAÑO',
+        prioridad: 'BAJA',
         titulo: 'Título actualizado',
         descripcion: 'Descripción actualizada'
       };
 
       const mockIncidencia = {
         id: 1,
-        tipo: 'Avería',
-        prioridad: 'Alta',
+        tipo: 'AVERIA',
+        prioridad: 'ALTA',
         titulo: 'Título original',
         descripcion: 'Descripción original',
         save: vi.fn(),
@@ -407,8 +407,8 @@ describe('Incidencia Controller - Tests Unitarios', () => {
 
       await actualizarIncidencia(req, res);
 
-      expect(mockIncidencia.tipo).toBe('Daño');
-      expect(mockIncidencia.prioridad).toBe('Baja');
+      expect(mockIncidencia.tipo).toBe('DAÑO');
+      expect(mockIncidencia.prioridad).toBe('BAJA');
       expect(mockIncidencia.titulo).toBe('Título actualizado');
       expect(mockIncidencia.save).toHaveBeenCalled();
       expect(res.status).toHaveBeenCalledWith(200);

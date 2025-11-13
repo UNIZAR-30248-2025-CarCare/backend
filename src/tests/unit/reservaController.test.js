@@ -49,8 +49,8 @@ describe('Reserva Controller - Tests Unitarios', () => {
     it('debería crear una reserva exitosamente', async () => {
       req.body = {
         tipo: 'TRABAJO',
-        fechaInicio: '2025-10-30',
-        fechaFinal: '2025-10-31',
+        fechaInicio: '2026-10-30',
+        fechaFinal: '2026-10-31',
         vehiculoId: 1,
         horaInicio: '08:00:00',
         horaFin: '18:00:00',
@@ -74,8 +74,8 @@ describe('Reserva Controller - Tests Unitarios', () => {
       const mockReserva = {
         id: 1,
         motivo: 'TRABAJO',
-        fechaInicio: '2025-10-30',
-        fechaFin: '2025-10-31',
+        fechaInicio: '2026-10-30',
+        fechaFin: '2026-10-31',
         UsuarioId: 1,
         VehiculoId: 1,
         horaInicio: '08:00:00',
@@ -106,8 +106,8 @@ describe('Reserva Controller - Tests Unitarios', () => {
     it('debería rechazar si el usuario no existe', async () => {
       req.body = {
         tipo: 'TRABAJO',
-        fechaInicio: '2025-10-30',
-        fechaFinal: '2025-10-31',
+        fechaInicio: '2026-10-30',
+        fechaFinal: '2026-10-31',
         vehiculoId: 1,
         horaInicio: '08:00:00',
         horaFin: '18:00:00'
@@ -126,8 +126,8 @@ describe('Reserva Controller - Tests Unitarios', () => {
     it('debería rechazar si el vehículo no existe', async () => {
       req.body = {
         tipo: 'TRABAJO',
-        fechaInicio: '2025-10-30',
-        fechaFinal: '2025-10-31',
+        fechaInicio: '2026-10-30',
+        fechaFinal: '2026-10-31',
         vehiculoId: 999,
         horaInicio: '08:00:00',
         horaFin: '18:00:00'
@@ -152,8 +152,8 @@ describe('Reserva Controller - Tests Unitarios', () => {
     it('debería rechazar si el vehículo no está disponible', async () => {
       req.body = {
         tipo: 'TRABAJO',
-        fechaInicio: '2025-10-30',
-        fechaFinal: '2025-10-31',
+        fechaInicio: '2026-10-30',
+        fechaFinal: '2026-10-31',
         vehiculoId: 1,
         horaInicio: '08:00:00',
         horaFin: '18:00:00'
@@ -184,8 +184,8 @@ describe('Reserva Controller - Tests Unitarios', () => {
     it('debería rechazar si el usuario no tiene permisos sobre el vehículo', async () => {
       req.body = {
         tipo: 'TRABAJO',
-        fechaInicio: '2025-10-30',
-        fechaFinal: '2025-10-31',
+        fechaInicio: '2026-10-30',
+        fechaFinal: '2026-10-31',
         vehiculoId: 1,
         horaInicio: '08:00:00',
         horaFin: '18:00:00'
@@ -217,8 +217,8 @@ describe('Reserva Controller - Tests Unitarios', () => {
     it('debería manejar errores de validación del modelo', async () => {
       req.body = {
         tipo: 'TRABAJO',
-        fechaInicio: '2025-10-30',
-        fechaFinal: '2025-10-29', // Fecha final anterior a la inicial
+        fechaInicio: '2026-10-30',
+        fechaFinal: '2026-10-29', // Fecha final anterior a la inicial
         vehiculoId: 1,
         horaInicio: '08:00:00',
         horaFin: '18:00:00'
@@ -255,8 +255,8 @@ describe('Reserva Controller - Tests Unitarios', () => {
         {
           id: 1,
           motivo: 'TRABAJO',
-          fechaInicio: '2025-10-30',
-          fechaFin: '2025-10-31',
+          fechaInicio: '2026-10-30',
+          fechaFin: '2026-10-31',
           UsuarioId: 1,
           VehiculoId: 1,
           Usuario: {
@@ -274,8 +274,8 @@ describe('Reserva Controller - Tests Unitarios', () => {
         {
           id: 2,
           motivo: 'PERSONAL',
-          fechaInicio: '2025-11-01',
-          fechaFin: '2025-11-02',
+          fechaInicio: '2026-11-01',
+          fechaFin: '2026-11-02',
           UsuarioId: 1,
           VehiculoId: 1,
           Usuario: {
@@ -333,8 +333,8 @@ describe('Reserva Controller - Tests Unitarios', () => {
       req.params = { id: '1' };
       req.body = {
         motivo: 'PERSONAL',
-        fechaInicio: '2025-10-30',
-        fechaFin: '2025-10-31',
+        fechaInicio: '2026-10-30',
+        fechaFin: '2026-10-31',
         horaInicio: '09:00:00',
         horaFin: '19:00:00',
         descripcion: 'Actualizada'
@@ -344,8 +344,8 @@ describe('Reserva Controller - Tests Unitarios', () => {
         id: 1,
         UsuarioId: 1,
         motivo: 'TRABAJO',
-        fechaInicio: '2025-10-30',
-        fechaFin: '2025-10-31',
+        fechaInicio: '2026-10-30',
+        fechaFin: '2026-10-31',
         horaInicio: '08:00:00',
         horaFin: '18:00:00',
         descripcion: 'Original',
@@ -408,8 +408,8 @@ describe('Reserva Controller - Tests Unitarios', () => {
     it('debería manejar errores de validación al actualizar', async () => {
       req.params = { id: '1' };
       req.body = {
-        fechaInicio: '2025-10-30',
-        fechaFin: '2025-10-29' // Fecha inválida
+        fechaInicio: '2026-10-30',
+        fechaFin: '2026-10-29' // Fecha inválida
       };
 
       const mockReserva = {

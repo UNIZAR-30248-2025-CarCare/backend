@@ -1,4 +1,4 @@
-import EstadisticasService from "../models/Estadisticas.js";
+import EstadisticasService from "../services/EstadisticasService.js";
 
 export const getEstadisticas = async (req, res) => {
   try {
@@ -38,7 +38,7 @@ export const getEstadisticas = async (req, res) => {
 
     res.json(estadisticas);
   } catch (error) {
-    console.error("Error al obtener estadísticas:", error);
+    //console.error("Error al obtener estadísticas:", error);
     res.status(500).json({ error: "Error al obtener estadísticas" });
   }
 };

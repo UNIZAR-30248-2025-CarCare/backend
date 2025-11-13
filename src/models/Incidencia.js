@@ -28,7 +28,7 @@ const Incidencia = sequelize.define("Incidencia", {
     }
   },
   tipo: {
-    type: DataTypes.ENUM("AVERIA", "ACCIDENTE", "MANTENIMIENTO", "OTRO"),
+    type: DataTypes.ENUM("AVERIA", "ACCIDENTE", "MANTENIMIENTO", "DAÑO", "OTRO"),
     allowNull: false,
   },
   prioridad: {
@@ -55,9 +55,9 @@ const Incidencia = sequelize.define("Incidencia", {
     defaultValue: true,
   },
   estado: {
-    type: DataTypes.ENUM("Pendiente", "En progreso", "Resuelta", "Cancelada"),
+    type: DataTypes.ENUM("PENDIENTE", "EN PROGRESO", "RESUELTA", "CANCELADA"),
     allowNull: false,
-    defaultValue: "Pendiente",
+    defaultValue: "PENDIENTE",
   },
   fechaCreacion: {
     type: DataTypes.DATE,
