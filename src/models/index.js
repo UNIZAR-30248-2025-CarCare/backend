@@ -3,6 +3,8 @@ import Vehiculo from "./Vehiculo.js";
 import Invitacion from "./Invitacion.js";
 import Viaje from "./Viaje.js";
 import Repostaje from "./Repostaje.js";
+import Logro from "./Logro.js";
+import UsuarioLogro from "./UsuarioLogro.js";
 
 // Relación N:M (muchos a muchos)
 Usuario.belongsToMany(Vehiculo, { through: "UsuarioVehiculo" });
@@ -36,4 +38,4 @@ Repostaje.belongsTo(Usuario, { foreignKey: "usuarioId" });
 Vehiculo.hasMany(Repostaje, { foreignKey: "vehiculoId" });
 Repostaje.belongsTo(Vehiculo, { foreignKey: "vehiculoId" });
 
-export { Usuario, Vehiculo, Invitacion, Viaje, Repostaje };
+export { Usuario, Vehiculo, Invitacion, Viaje, Repostaje, Logro, UsuarioLogro };
