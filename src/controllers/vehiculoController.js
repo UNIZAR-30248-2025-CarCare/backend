@@ -78,7 +78,8 @@ export const registrarVehiculo = async (req, res) => {
       consumo_medio,
       ubicacion_actual,
       estado,
-      tipo
+      tipo,
+      propietarioId: usuarioId
     });
 
     await usuario.addVehiculo(nuevoVehiculo);
@@ -182,5 +183,104 @@ export const actualizarUbicacionVehiculo = async (req, res) => {
     res.status(200).json({ message: "Ubicación actualizada correctamente.", ubicacion_actual: vehiculo.ubicacion_actual });
   } catch (error) {
     res.status(500).json({ error: "Error al actualizar la ubicación.", detalles: error.message });
+  }
+};
+
+// Eliminar un vehículo (propietario: elimina todo, no propietario: elimina relación)
+export const eliminarVehiculo = async (req, res) => {
+  try {
+    const vehiculoId = req.params.vehiculoId;
+    const usuarioId = req.usuario.id;
+
+    const vehiculo = await Vehiculo.findByPk(vehiculoId, {
+      include: [{ model: Usuario, as: 'Usuarios', attributes: ['id'], through: { attributes: [] } }]
+    });
+
+    if (!vehiculo) {
+      return res.status(404).json({ error: "Vehículo no encontrado." });
+    }
+
+    if (vehiculo.propietarioId === usuarioId) {
+      // Es propietario: elimina el vehículo y todas las relaciones
+      await vehiculo.destroy();
+      return res.status(200).json({ message: "Vehículo eliminado correctamente (propietario)." });
+    } else {
+      // No es propietario: elimina solo la relación usuario-vehículo
+      await vehiculo.removeUsuario(usuarioId);
+      return res.status(200).json({ message: "Relación con el vehículo eliminada correctamente." });
+    }
+  } catch (error) {
+    res.status(500).json({ error: "Error al eliminar el vehículo.", detalles: error.message });
+  }
+};
+
+// Editar un vehículo (solo propietario)
+export const editarVehiculo = async (req, res) => {
+  try {
+    const vehiculoId = req.params.vehiculoId;
+    const usuarioId = req.usuario.id;
+    const camposEditables = [
+      "nombre", "matricula", "modelo", "fabricante", "antiguedad",
+      "tipo_combustible", "litros_combustible", "consumo_medio",
+      "ubicacion_actual", "estado", "tipo"
+    ];
+    const datos = {};
+    for (const campo of camposEditables) {
+      if (req.body[campo] !== undefined) datos[campo] = req.body[campo];
+    }
+
+    const vehiculo = await Vehiculo.findByPk(vehiculoId);
+    if (!vehiculo) {
+      return res.status(404).json({ error: "Vehículo no encontrado." });
+    }
+    if (vehiculo.propietarioId !== usuarioId) {
+      return res.status(403).json({ error: "Solo el propietario puede editar el vehículo." });
+    }
+
+    await vehiculo.update(datos);
+    res.status(200).json({ message: "Vehículo actualizado correctamente.", vehiculo });
+  } catch (error) {
+    res.status(500).json({ error: "Error al editar el vehículo.", detalles: error.message });
+  }
+};
+
+// Eliminar a un usuario del vehículo (solo propietario)
+export const eliminarUsuarioDeVehiculo = async (req, res) => {
+  try {
+    const vehiculoId = req.params.vehiculoId;
+    const usuarioId = req.usuario.id;
+    const usuarioAEliminarNombre = req.body.usuarioNombre;
+
+    // Buscar al usuario a eliminar por su nombre
+    const usuarioAEliminar = await Usuario.findOne({ where: { nombre: usuarioAEliminarNombre } });
+    if (!usuarioAEliminar) {
+      return res.status(404).json({ error: "Usuario a eliminar no encontrado." });
+    }
+
+    const usuarioAEliminarId = usuarioAEliminar.id;
+
+    const vehiculo = await Vehiculo.findByPk(vehiculoId, {
+      include: [{ model: Usuario, attributes: ['id'], through: { attributes: [] } }]
+    });
+
+    if (!vehiculo) {
+      return res.status(404).json({ error: "Vehículo no encontrado." });
+    }
+    if (vehiculo.propietarioId !== usuarioId) {
+      return res.status(403).json({ error: "Solo el propietario puede eliminar usuarios del vehículo." });
+    }
+    if (usuarioAEliminarId === usuarioId) {
+      return res.status(400).json({ error: "El propietario no puede eliminarse a sí mismo." });
+    }
+
+    const usuarioVinculado = vehiculo.Usuarios.some(u => u.id === usuarioAEliminarId);
+    if (!usuarioVinculado) {
+      return res.status(404).json({ error: "El usuario no está vinculado a este vehículo." });
+    }
+
+    await vehiculo.removeUsuario(usuarioAEliminarId);
+    res.status(200).json({ message: "Usuario eliminado del vehículo correctamente." });
+  } catch (error) {
+    res.status(500).json({ error: "Error al eliminar usuario del vehículo.", detalles: error.message });
   }
 };

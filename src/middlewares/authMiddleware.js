@@ -21,3 +21,14 @@ export const verificarToken = (req, res, next) => {
     res.status(401).json({ error: 'Token inválido o expirado.' });
   }
 };
+
+// Función para generar un token para un usuario dado
+export const generarToken = (usuario) => {
+  const payload = {
+    id: usuario.id,
+    email: usuario.email,
+  };
+
+  // Crear token con expiración de 1 hora
+  return jwt.sign(payload, process.env.JWT_SECRET || "secret_key", { expiresIn: '1h' });
+};
