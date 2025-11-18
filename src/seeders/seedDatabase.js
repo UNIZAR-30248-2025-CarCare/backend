@@ -1,22 +1,10 @@
 import bcrypt from "bcrypt";
-import { Usuario, Vehiculo, Invitacion ,Logro, Repostaje, Viaje, Revision, Incidencia } from "../models/index.js";
+import { Usuario, Vehiculo, Invitacion, Logro, Repostaje, Viaje, Revision, Incidencia } from "../models/index.js";
 import sequelize from "../config/database.js";
 
 async function seedDatabase() {
   try {
     console.log("🌱 Iniciando seed de la base de datos...");
-
-    await sequelize.query('SET FOREIGN_KEY_CHECKS = 0');
-
-    await sequelize.query('DELETE FROM Repostajes');
-    await sequelize.query('DELETE FROM Viajes');
-    await sequelize.query('DELETE FROM Revisions');
-    await sequelize.query('DELETE FROM Incidencias');
-    await sequelize.query('DELETE FROM UsuarioVehiculo');
-    await sequelize.query('DELETE FROM Invitacions');
-    await sequelize.query('DELETE FROM Vehiculos');
-    await sequelize.query('DELETE FROM Usuarios');
-    await sequelize.query('SET FOREIGN_KEY_CHECKS = 1');
 
     // Verificar si ya hay datos
     const usuariosCount = await Usuario.count();
@@ -251,7 +239,6 @@ async function seedDatabase() {
         usado: false,
       },
     ]);
-<<<<<<< HEAD
     // 5. Crear logros
     console.log("🏆 Creando logros...");
     await Logro.bulkCreate([
@@ -364,9 +351,8 @@ async function seedDatabase() {
         activo: true
       }
     ]);
-=======
 
-    // 5. Crear incidencias
+    // 6. Crear incidencias
     console.log("🔧 Creando incidencias...");
     const hace3Dias = new Date(fechaActual.getTime() - 3 * 24 * 60 * 60 * 1000);
     const hace5Dias = new Date(fechaActual.getTime() - 5 * 24 * 60 * 60 * 1000);
@@ -499,7 +485,6 @@ async function seedDatabase() {
       },
     ]);
 
->>>>>>> 8f5879e0879eb97cd65b1ddc470fbfe7519790e6
     console.log("✅ Seed completado exitosamente!");
     console.log("\n📊 Datos creados:");
     console.log(`   - ${usuarios.length} usuarios`);

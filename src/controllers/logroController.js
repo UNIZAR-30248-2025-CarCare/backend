@@ -55,7 +55,7 @@ export const obtenerLogrosUsuario = async (req, res) => {
         fechaObtenido: logroUsuario ? logroUsuario.fechaObtenido : null,
         porcentaje: logro.criterio > 0 ? Math.min(100, Math.round((logroUsuario?.progreso || 0) / logro.criterio * 100)) : 0
       };
-    });
+    }).sort((a, b) => a.puntos - b.puntos);
 
     const desbloqueados = logrosCompletos.filter(l => l.desbloqueado).length;
     const puntosTotales = logrosCompletos
@@ -155,9 +155,9 @@ async function calcularProgreso(usuarioId, tipo) {
       case 'DISTANCIA': {
         const viajes = await Viaje.findAll({
           where: { usuarioId },
-          attributes: ['kilometros']
+          attributes: ['kmRealizados']
         });
-        return Math.floor(viajes.reduce((total, v) => total + (parseFloat(v.kilometros) || 0), 0));
+        return Math.floor(viajes.reduce((total, v) => total + (parseFloat(v.kmRealizados) || 0), 0));
       }
       case 'REPOSTAJES':
         return await Repostaje.count({ where: { usuarioId } });
