@@ -1,22 +1,10 @@
 import bcrypt from "bcrypt";
-import { Usuario, Vehiculo, Invitacion, Repostaje, Viaje, Revision, Incidencia } from "../models/index.js";
+import { Usuario, Vehiculo, Invitacion, Logro, Repostaje, Viaje, Revision, Incidencia } from "../models/index.js";
 import sequelize from "../config/database.js";
 
 async function seedDatabase() {
   try {
     console.log("🌱 Iniciando seed de la base de datos...");
-
-    await sequelize.query('SET FOREIGN_KEY_CHECKS = 0');
-
-    await sequelize.query('DELETE FROM Repostajes');
-    await sequelize.query('DELETE FROM Viajes');
-    await sequelize.query('DELETE FROM Revisions');
-    await sequelize.query('DELETE FROM Incidencia');
-    await sequelize.query('DELETE FROM UsuarioVehiculo');
-    await sequelize.query('DELETE FROM Invitacions');
-    await sequelize.query('DELETE FROM Vehiculos');
-    await sequelize.query('DELETE FROM Usuarios');
-    await sequelize.query('SET FOREIGN_KEY_CHECKS = 1');
 
     // Verificar si ya hay datos
     const usuariosCount = await Usuario.count();
@@ -251,8 +239,120 @@ async function seedDatabase() {
         usado: false,
       },
     ]);
+    // 5. Crear logros
+    console.log("🏆 Creando logros...");
+    await Logro.bulkCreate([
+      {
+        nombre: "Primer Paso",
+        descripcion: "Completa tu primer viaje",
+        tipo: "VIAJES",
+        criterio: 1,
+        icono: "🚗",
+        puntos: 5,
+        activo: true
+      },
+      {
+        nombre: "Viajero Frecuente",
+        descripcion: "Completa 10 viajes",
+        tipo: "VIAJES",
+        criterio: 10,
+        icono: "✈️",
+        puntos: 15,
+        activo: true
+      },
+      {
+        nombre: "Aventurero",
+        descripcion: "Completa 50 viajes",
+        tipo: "VIAJES",
+        criterio: 50,
+        icono: "🌍",
+        puntos: 30,
+        activo: true
+      },
+      {
+        nombre: "Explorador",
+        descripcion: "Recorre 100 kilómetros",
+        tipo: "DISTANCIA",
+        criterio: 100,
+        icono: "🗺️",
+        puntos: 10,
+        activo: true
+      },
+      {
+        nombre: "Trotamundos",
+        descripcion: "Recorre 500 kilómetros",
+        tipo: "DISTANCIA",
+        criterio: 500,
+        icono: "🚙",
+        puntos: 25,
+        activo: true
+      },
+      {
+        nombre: "Vuelta al Mundo",
+        descripcion: "Recorre 1000 kilómetros",
+        tipo: "DISTANCIA",
+        criterio: 1000,
+        icono: "🌐",
+        puntos: 50,
+        activo: true
+      },
+      {
+        nombre: "Primera Reserva",
+        descripcion: "Crea tu primera reserva",
+        tipo: "RESERVAS",
+        criterio: 1,
+        icono: "📅",
+        puntos: 5,
+        activo: true
+      },
+      {
+        nombre: "Planificador Experto",
+        descripcion: "Crea 10 reservas",
+        tipo: "RESERVAS",
+        criterio: 10,
+        icono: "📆",
+        puntos: 15,
+        activo: true
+      },
+      {
+        nombre: "Primer Repostaje",
+        descripcion: "Realiza tu primer repostaje",
+        tipo: "REPOSTAJES",
+        criterio: 1,
+        icono: "⛽",
+        puntos: 5,
+        activo: true
+      },
+      {
+        nombre: "Maestro del Repostaje",
+        descripcion: "Realiza 10 repostajes",
+        tipo: "REPOSTAJES",
+        criterio: 10,
+        icono: "⛽",
+        puntos: 15,
+        activo: true
+      },
+      {
+        nombre: "Coleccionista Iniciado",
+        descripcion: "Registra tu primer vehículo",
+        tipo: "VEHICULOS",
+        criterio: 1,
+        icono: "🚘",
+        puntos: 5,
+        activo: true
+      },
+      {
+        nombre: "Coleccionista",
+        descripcion: "Registra 3 vehículos",
+        tipo: "VEHICULOS",
+        criterio: 3,
+        icono: "🚙",
+        puntos: 20,
+        activo: true
+      }
+    ]);
 
-    // 5. Crear incidencias
+    // 6. Crear incidencias
     console.log("🔧 Creando incidencias...");
     const hace3Dias = new Date(fechaActual.getTime() - 3 * 24 * 60 * 60 * 1000);
     const hace5Dias = new Date(fechaActual.getTime() - 5 * 24 * 60 * 60 * 1000);

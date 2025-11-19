@@ -5,6 +5,8 @@ import Viaje from "./Viaje.js";
 import Repostaje from "./Repostaje.js";
 import Incidencia from "./Incidencia.js";
 import Revision from "./Revision.js";
+import Logro from "./Logro.js";
+import UsuarioLogro from "./UsuarioLogro.js";
 
 // Relación N:M (muchos a muchos)
 Usuario.belongsToMany(Vehiculo, { through: "UsuarioVehiculo" });
@@ -54,5 +56,22 @@ Revision.belongsTo(Usuario, { foreignKey: "usuarioId" });
 Vehiculo.hasMany(Revision, { foreignKey: "vehiculoId" });
 Revision.belongsTo(Vehiculo, { foreignKey: "vehiculoId" });
 
-export { Usuario, Vehiculo, Invitacion, Viaje, Repostaje, Revision, Incidencia };
+// Relación N:M entre Usuario y Logro a través de UsuarioLogro
+Usuario.belongsToMany(Logro, { 
+  through: UsuarioLogro,
+  foreignKey: "usuarioId"
+});
+Logro.belongsToMany(Usuario, { 
+  through: UsuarioLogro,
+  foreignKey: "logroId"
+});
+
+// Relaciones directas para acceder a la tabla intermedia
+Usuario.hasMany(UsuarioLogro, { foreignKey: "usuarioId" });
+UsuarioLogro.belongsTo(Usuario, { foreignKey: "usuarioId" });
+
+Logro.hasMany(UsuarioLogro, { foreignKey: "logroId" });
+UsuarioLogro.belongsTo(Logro, { foreignKey: "logroId" });
+
+export { Usuario, Vehiculo, Invitacion, Viaje, Repostaje, Revision, Incidencia, Logro, UsuarioLogro };
 

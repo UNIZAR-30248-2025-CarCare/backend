@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 import morgan from "morgan";
 import routes from "./routes/index.js";
-import "./models/associations.js";
+import "./models/Associations.js";
 const app = express();
 
 app.use(cors());
@@ -37,9 +37,14 @@ app.use("/viaje", viajeRoutes);
 import repostajeRoutes from "./routes/repostajeRoutes.js";
 app.use("/repostaje", repostajeRoutes);
 
+// Rutas de logros
+import logroRoutes from "./routes/logroRoutes.js";
+app.use("/logro", logroRoutes);
+
 // Rutas de incidencias
 import incidenciaRoutes from "./routes/incidenciaRoutes.js";
 app.use("/incidencia", incidenciaRoutes);
+
 // Rutas de revisiones
 import revisionRoutes from "./routes/revisionRoutes.js";
 app.use("/revision", revisionRoutes);
