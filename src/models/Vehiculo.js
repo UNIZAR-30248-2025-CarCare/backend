@@ -63,6 +63,11 @@ const Vehiculo = sequelize.define("Vehiculo", {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
+  icono_url: {
+    type: DataTypes.STRING, // Guarda la URL o ruta de la imagen
+    allowNull: true,
+    defaultValue: null,
+  },
 });
 
 export default Vehiculo;

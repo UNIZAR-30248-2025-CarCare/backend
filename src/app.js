@@ -57,4 +57,7 @@ app.use("/estadisticas", estadisticasRoutes);
 import busquedaRoutes from "./routes/busquedaRoutes.js";
 app.use("/busqueda", busquedaRoutes);
 
+// Servir archivos estáticos de la carpeta uploads
+app.use("/uploads", express.static("uploads"));
+
 export default app;

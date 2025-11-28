@@ -284,3 +284,57 @@ export const eliminarUsuarioDeVehiculo = async (req, res) => {
     res.status(500).json({ error: "Error al eliminar usuario del vehículo.", detalles: error.message });
   }
 };
+
+export const actualizarIconoVehiculo = async (req, res) => {
+  try {
+    const { vehiculoId } = req.params;
+    if (!req.file) {
+      return res.status(400).json({ error: "No se ha subido ninguna imagen" });
+    }
+    const iconoUrl = `/uploads/vehiculos/${req.file.filename}`;
+    const vehiculo = await Vehiculo.findByPk(vehiculoId);
+    if (!vehiculo) {
+      return res.status(404).json({ error: "Vehículo no encontrado" });
+    }
+    vehiculo.icono_url = iconoUrl;
+    await vehiculo.save();
+    res.json({ message: "Icono actualizado", iconoUrl });
+  } catch (error) {
+    res.status(500).json({ error: "Error al actualizar el icono" });
+  }
+};
+
+// Obtener el icono de un vehículo por su ID
+export const obtenerIconoVehiculo = async (req, res) => {
+  try {
+    const vehiculoId = req.params.vehiculoId;
+    const vehiculo = await Vehiculo.findByPk(vehiculoId);
+    if (!vehiculo) {
+      return res.status(404).json({ error: "Vehículo no encontrado." });
+    }
+    res.status(200).json({ iconoUrl: vehiculo.icono_url });
+  } catch (error) {
+    res.status(500).json({ error: "Error al obtener el icono.", detalles: error.message });
+  }
+};
+
+export const eliminarIconoVehiculo = async (req, res) => {
+  try {
+    const { vehiculoId } = req.params;
+    const vehiculo = await Vehiculo.findByPk(vehiculoId);
+    if (!vehiculo) {
+      return res.status(404).json({ error: "Vehículo no encontrado" });
+    }
+    // Opcional: elimina el archivo físico si existe
+    if (vehiculo.icono_url) {
+      const fs = await import("fs");
+      const path = `./${vehiculo.icono_url}`;
+      fs.unlink(path, (err) => {});
+    }
+    vehiculo.icono_url = null;
+    await vehiculo.save();
+    res.json({ message: "Icono eliminado, vuelve al icono por defecto" });
+  } catch (error) {
+    res.status(500).json({ error: "Error al eliminar el icono" });
+  }
+};
