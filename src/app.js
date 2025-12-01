@@ -57,4 +57,8 @@ app.use("/estadisticas", estadisticasRoutes);
 import busquedaRoutes from "./routes/busquedaRoutes.js";
 app.use("/busqueda", busquedaRoutes);
 
+// Rutas de suscripciones
+import suscripcionRoutes from "./routes/suscripcionRoutes.js";
+app.use("/suscripcion", suscripcionRoutes);
+
 export default app;
