@@ -6,6 +6,18 @@ async function seedDatabase() {
   try {
     console.log("🌱 Iniciando seed de la base de datos...");
 
+    await sequelize.query('SET FOREIGN_KEY_CHECKS = 0');
+
+    await sequelize.query('DELETE FROM Repostajes');
+    await sequelize.query('DELETE FROM Viajes');
+    await sequelize.query('DELETE FROM Revisions');
+    await sequelize.query('DELETE FROM Incidencia');
+    await sequelize.query('DELETE FROM UsuarioVehiculo');
+    await sequelize.query('DELETE FROM Invitacions');
+    await sequelize.query('DELETE FROM Vehiculos');
+    await sequelize.query('DELETE FROM Usuarios');
+    await sequelize.query('SET FOREIGN_KEY_CHECKS = 1');
+
     // Verificar si ya hay datos
     const usuariosCount = await Usuario.count();
     if (usuariosCount > 0) {
@@ -24,6 +36,7 @@ async function seedDatabase() {
         contrasegna: hashedPassword,
         fecha_nacimiento: "1990-05-15",
         ubicaciones_preferidas: [],
+        es_premium: false,
       },
       {
         nombre: "María García",
@@ -38,6 +51,7 @@ async function seedDatabase() {
             longitud: -0.8891,
           },
         ],
+        es_premium: false,
       },
       {
         nombre: "Carlos Rodríguez",
@@ -45,6 +59,7 @@ async function seedDatabase() {
         contrasegna: hashedPassword,
         fecha_nacimiento: "1992-03-10",
         ubicaciones_preferidas: [],
+        es_premium: false,
       },
       {
         nombre: "Ana Martínez",
@@ -59,6 +74,7 @@ async function seedDatabase() {
             longitud: -0.8773,
           },
         ],
+        es_premium: false,
       },
       {
         nombre: "Luis Fernández",
@@ -66,6 +82,7 @@ async function seedDatabase() {
         contrasegna: hashedPassword,
         fecha_nacimiento: "1995-07-18",
         ubicaciones_preferidas: [],
+        es_premium: false,
       },
     ]);
 
