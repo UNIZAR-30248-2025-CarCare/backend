@@ -144,8 +144,8 @@ describe('Reserva - Tests de Integración', () => {
         .set('Authorization', `Bearer ${token}`)
         .send({
           tipo: 'TRABAJO',
-          fechaInicio: '2025-12-01',
-          fechaFinal: '2025-12-01',
+          fechaInicio: '2026-12-01',
+          fechaFinal: '2026-12-01',
           vehiculoId: vehiculo.id,
           horaInicio: '09:00:00',
           horaFin: '12:00:00'
@@ -158,8 +158,8 @@ describe('Reserva - Tests de Integración', () => {
         .set('Authorization', `Bearer ${token}`)
         .send({
           tipo: 'PERSONAL',
-          fechaInicio: '2025-12-01',
-          fechaFinal: '2025-12-01',
+          fechaInicio: '2026-12-01',
+          fechaFinal: '2026-12-01',
           vehiculoId: vehiculo.id,
           horaInicio: '11:00:00',
           horaFin: '13:00:00'
@@ -206,8 +206,8 @@ describe('Reserva - Tests de Integración', () => {
         .set('Authorization', `Bearer ${token}`)
         .send({
           tipo: 'TRABAJO',
-          fechaInicio: '2025-12-10',
-          fechaFinal: '2025-12-10',
+          fechaInicio: '2026-12-10',
+          fechaFinal: '2026-12-10',
           vehiculoId: vehiculo.id,
           horaInicio: '08:00:00',
           horaFin: '09:00:00'
