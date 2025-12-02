@@ -135,7 +135,7 @@ describe('Reserva - Tests de Integración', () => {
       expect(response.body.error).toMatch(/fecha de fin/i);
     });
 
-    it('debería rechazar reservas solapadas para el mismo vehículo', async () => {
+        it('debería rechazar reservas solapadas para el mismo vehículo', async () => {
       const { token, userId } = await crearYAutenticarUsuario('owner3@example.com');
       const vehiculo = await crearVehiculo(token, userId);
 

@@ -57,6 +57,8 @@ app.use("/estadisticas", estadisticasRoutes);
 import busquedaRoutes from "./routes/busquedaRoutes.js";
 app.use("/busqueda", busquedaRoutes);
 
+// Servir archivos estáticos de la carpeta uploads
+app.use("/uploads", express.static("uploads"));
 // Rutas de suscripciones
 import suscripcionRoutes from "./routes/suscripcionRoutes.js";
 app.use("/suscripcion", suscripcionRoutes);
