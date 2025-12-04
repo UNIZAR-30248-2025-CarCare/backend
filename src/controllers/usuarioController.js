@@ -1,6 +1,7 @@
 import Usuario from "../models/Usuario.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import path from 'path';
 
 // Función para validar formato de email
 const validarEmail = (email) => {
@@ -139,4 +140,44 @@ export const obtenerNombreUsuario = async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: "Error al obtener el nombre de usuario.", detalles: error.message });
   }
+};
+
+// Función para actualizar la foto de perfil del usuario
+export const actualizarFotoPerfil = async (req, res) => {
+    try {
+        // Multer (uploadProfilePhoto) ya procesó el archivo y verificó el tipo.
+        // Si hay un error de Multer (como límite de tamaño o tipo), lo manejamos aquí.
+        if (req.multerError) {
+            return res.status(400).json({ error: req.multerError.message });
+        }
+        
+        // 1. Verificar si Multer encontró el archivo
+        if (!req.file) {
+            return res.status(400).json({ error: 'No se proporcionó ningún archivo de imagen.' });
+        }
+
+        const userId = req.usuario.id; // Obtenido del token JWT por verificarToken
+        
+        // 2. Construir la URL relativa del archivo guardado
+        // Importante: No uses rutas absolutas. Usamos la ruta que configuramos en Multer.
+        const fotoUrl = `/uploads/perfiles/${req.file.filename}`;
+
+        // 3. Actualizar el campo en la base de datos
+        await Usuario.update(
+            { foto_perfil: fotoUrl },
+            { where: { id: userId } }
+        );
+
+        res.status(200).json({
+            message: 'Foto de perfil actualizada exitosamente.',
+            foto_perfil: fotoUrl
+        });
+
+    } catch (error) {
+        // Capturar errores no relacionados con la subida de archivos
+        res.status(500).json({ 
+            error: 'Error interno del servidor al procesar la foto.', 
+            detalles: error.message 
+        });
+    }
 };

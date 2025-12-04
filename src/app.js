@@ -3,11 +3,15 @@ import cors from "cors";
 import morgan from "morgan";
 import routes from "./routes/index.js";
 import "./models/Associations.js";
+import path from 'path';
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 app.use(morgan("dev"));
+
+// Configuración para usar la carpeta 'uploads'
+app.use('/uploads', express.static(path.join(path.resolve(), 'uploads')));
 
 app.get("/", (req, res) => {
   res.status(200).json({ message: "API CarCare backend funcionando" });
