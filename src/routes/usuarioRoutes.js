@@ -2,7 +2,6 @@ import "../models/index.js";
 import express from "express";
 import { sign_in, sign_up, obtenerNombreUsuario, actualizarFotoPerfil, obtenerFotoPerfil} from "../controllers/usuarioController.js";
 import { verificarToken } from '../middlewares/authMiddleware.js';
-import uploadProfilePhoto from "../config/multerConfig.js";
 
 const router = express.Router();
 
