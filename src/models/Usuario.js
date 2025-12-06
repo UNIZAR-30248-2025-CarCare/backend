@@ -53,6 +53,11 @@ const Usuario = sequelize.define("Usuario", {
     type: DataTypes.DATE,
     allowNull: true,
   },
+  foto_perfil: {
+    type: DataTypes.TEXT('long'),
+    allowNull: true,
+    defaultValue: null
+  },
 });
 
 export default Usuario;
