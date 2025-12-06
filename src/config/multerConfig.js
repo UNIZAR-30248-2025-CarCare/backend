@@ -1,5 +1,10 @@
-const multer = require('multer');
-const path = require('path');
+import multer from 'multer';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+// Para obtener __dirname en ES Modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Configuración de almacenamiento: Dónde guardar y cómo nombrar el archivo
 const storage = multer.diskStorage({
@@ -30,11 +35,11 @@ const upload = multer({
   storage: storage,
   fileFilter: fileFilter,
   limits: {
-    fileSize: 1024 * 1024 * 5 // Límite de 5MB
+    fileSize: 1024 * 1024 * 20 // Límite de 20MB
   }
 });
 
 // Middleware para la subida de una única imagen
 const uploadProfilePhoto = upload.single('foto'); 
 
-module.exports = uploadProfilePhoto;
+export default uploadProfilePhoto;

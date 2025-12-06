@@ -142,42 +142,83 @@ export const obtenerNombreUsuario = async (req, res) => {
   }
 };
 
-// Función para actualizar la foto de perfil del usuario
 export const actualizarFotoPerfil = async (req, res) => {
-    try {
-        // Multer (uploadProfilePhoto) ya procesó el archivo y verificó el tipo.
-        // Si hay un error de Multer (como límite de tamaño o tipo), lo manejamos aquí.
-        if (req.multerError) {
-            return res.status(400).json({ error: req.multerError.message });
-        }
-        
-        // 1. Verificar si Multer encontró el archivo
-        if (!req.file) {
-            return res.status(400).json({ error: 'No se proporcionó ningún archivo de imagen.' });
-        }
+  try {
+    const { fotoBase64 } = req.body;
+    const usuarioId = req.user?.id || req.usuario?.id;
 
-        const userId = req.usuario.id; // Obtenido del token JWT por verificarToken
-        
-        // 2. Construir la URL relativa del archivo guardado
-        // Importante: No uses rutas absolutas. Usamos la ruta que configuramos en Multer.
-        const fotoUrl = `/uploads/perfiles/${req.file.filename}`;
+    console.log('📸 Actualizando foto de perfil para usuario:', usuarioId);
 
-        // 3. Actualizar el campo en la base de datos
-        await Usuario.update(
-            { foto_perfil: fotoUrl },
-            { where: { id: userId } }
-        );
-
-        res.status(200).json({
-            message: 'Foto de perfil actualizada exitosamente.',
-            foto_perfil: fotoUrl
-        });
-
-    } catch (error) {
-        // Capturar errores no relacionados con la subida de archivos
-        res.status(500).json({ 
-            error: 'Error interno del servidor al procesar la foto.', 
-            detalles: error.message 
-        });
+    if (!usuarioId) {
+      return res.status(401).json({
+        message: 'Usuario no autenticado.'
+      });
     }
+
+    if (!fotoBase64) {
+      return res.status(400).json({
+        message: 'No se recibió la foto en Base64.'
+      });
+    }
+
+    // Validar que sea una imagen válida (opcional)
+    if (!fotoBase64.startsWith('data:image/')) {
+      return res.status(400).json({
+        message: 'El formato de la imagen no es válido.'
+      });
+    }
+
+    // Guardar directamente el Base64 en la base de datos
+    await Usuario.update(
+      { foto_perfil: fotoBase64 },
+      { where: { id: usuarioId } }
+    );
+
+    console.log('✅ Foto actualizada correctamente');
+
+    return res.status(200).json({
+      message: 'Foto de perfil actualizada correctamente.',
+      foto_perfil: fotoBase64
+    });
+
+  } catch (error) {
+    console.error('❌ Error al actualizar foto:', error);
+    return res.status(500).json({
+      message: 'Error al actualizar foto de perfil.',
+      error: error.message
+    });
+  }
+};
+
+export const obtenerFotoPerfil = async (req, res) => {
+  try {
+    const usuarioId = req.user?.id || req.usuario?.id;
+
+    if (!usuarioId) {
+      return res.status(401).json({ 
+        error: "Usuario no autenticado." 
+      });
+    }
+
+    const usuario = await Usuario.findByPk(usuarioId, {
+      attributes: ['foto_perfil'] 
+    });
+
+    if (!usuario) {
+      return res.status(404).json({ 
+        error: "Usuario no encontrado." 
+      });
+    }
+
+    return res.status(200).json({ 
+      foto_perfil_url: usuario.foto_perfil || null
+    });
+
+  } catch (error) {
+    console.error('Error al obtener foto:', error);
+    return res.status(500).json({ 
+      error: "Error al obtener la foto de perfil.", 
+      detalles: error.message 
+    });
+  }
 };
